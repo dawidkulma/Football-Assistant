@@ -1,8 +1,17 @@
 package com.football.assistant.service;
 
-import com.football.assistant.domain.User;
+import com.football.assistant.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 }
