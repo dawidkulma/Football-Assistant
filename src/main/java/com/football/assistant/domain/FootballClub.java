@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Table
 @Entity
+@Table(name = "football_club", schema = "assistant")
 public class FootballClub implements Serializable {
 
     @Id
