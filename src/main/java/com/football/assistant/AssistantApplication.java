@@ -14,11 +14,4 @@ public class AssistantApplication {
 		SpringApplication.run(AssistantApplication.class, args);
 	}
 
-	@Bean
-	ApplicationRunner applicationRunner(FootballClubRepository footballClubRepository) {
-		return args -> {
-			footballClubRepository.save( new FootballClub("Arsenal", "ARS"));
-		};
-	}
-
 }
