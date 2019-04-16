@@ -18,8 +18,14 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    private boolean adminAccountReady = false;
+
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
     public ModelAndView login(){
+        if(!adminAccountReady) {
+            createAdminAccount();
+            adminAccountReady = true;
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
@@ -42,10 +48,14 @@ public class LoginController {
             bindingResult.rejectValue("email", "error.user",
                     "This email is already in use");
         }
+        if (user.getEmail().equals("admin")) {
+            bindingResult.rejectValue("email", "error.user",
+                    "This email is reserved");
+        }
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
-            userService.saveUser(user);
+            userService.saveUser(user, "NORMAL");
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("registration");
@@ -53,16 +63,33 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/admin/home", method = RequestMethod.GET)
-    public ModelAndView home(){
+    @RequestMapping(value="/admin", method = RequestMethod.GET)
+    public ModelAndView admin(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getNickname() + " (" + user.getEmail() + ")");
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin/home");
+        modelAndView.setViewName("admin");
         return modelAndView;
     }
 
+    @RequestMapping(value={"/access-denied"}, method = RequestMethod.GET)
+    public ModelAndView accessDenied(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("access-denied");
+        return modelAndView;
+    }
+
+    /* Add the admin account if necessary */
+    private void createAdminAccount() {
+        User adminUser = new User();
+        adminUser.setPassword("admin");
+        adminUser.setEmail("admin@admin");
+        adminUser.setNickname("admin");
+        User userExists = userService.findUserByEmail(adminUser.getEmail());
+        if (userExists != null) return;
+        userService.saveUser(adminUser, "ADMIN");
+    }
 
 }

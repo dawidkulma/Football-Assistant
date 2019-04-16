@@ -3,9 +3,12 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Football Assistant</title>
+    <script type="text/javascript" th:src="@{/js/home.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
 </head>
     <body>
     <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <br><div id="newsPostList"></div><br>
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>

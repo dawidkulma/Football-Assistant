@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,18 +40,25 @@ public class User implements Serializable {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<NewsPost> newsPosts;
+
     public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email,
                 @Length(min = 5, message = "*Your password must have at least 5 characters")
                 @NotEmpty(message = "*Please provide your password") String password,
-                @NotEmpty(message = "*Please provide your nickname") String nickname, int active, Set<Role> roles) {
+                @NotEmpty(message = "*Please provide your nickname") String nickname, int active) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.active = active;
-        this.roles = roles;
+        this.roles = new HashSet<>();
+        this.newsPosts = new HashSet<>();
     }
 
-    public User() {}
+    public User() {
+        this.roles = new HashSet<>();
+        this.newsPosts = new HashSet<>();
+    }
 
     public int getId() {
         return id;
@@ -128,5 +136,40 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, password, nickname, active, roles);
+    }
+
+    public void addRole(Role newRole) {
+        if(!this.roles.contains(newRole)) {
+            this.roles.add(newRole);
+            newRole.addUser(this);
+        }
+    }
+
+    public void removeRole(Role role) {
+        if(this.roles.contains(role)) {
+            this.roles.remove(role);
+            role.removeUser(this);
+        }
+    }
+
+    public Set<NewsPost> getNewsPosts() {
+        return newsPosts;
+    }
+
+    public void setNewsPosts(Set<NewsPost> newsPosts) {
+        this.newsPosts = newsPosts;
+    }
+
+    public void addNewsPost(NewsPost post) {
+        if(!this.newsPosts.contains(post)) {
+            this.newsPosts.add(post);
+            post.setAuthor(this);
+        }
+    }
+
+    public void removeNewsPost(NewsPost post) {
+        if(this.newsPosts.contains(post)) {
+            this.newsPosts.remove(post);
+        }
     }
 }

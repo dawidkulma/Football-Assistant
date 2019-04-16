@@ -1,0 +1,19 @@
+{
+  "name": "football-assistant",
+  "version": "1.0.0",
+  "description": "Web app with useful functionalities for football fans",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pwegrzyn/Football-Assistant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pwegrzyn/Football-Assistant/issues"
+  },
+  "homepage": "https://github.com/pwegrzyn/Football-Assistant#readme"
+}
