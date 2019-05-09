@@ -15,10 +15,6 @@ public class FootballClubService {
         this.footballClubRepository = footballClubRepository;
     }
 
-    public FootballClub createFootballClub(String fullName, String shortName) {
-        return footballClubRepository.save( new FootballClub(fullName, shortName) );
-    }
-
     public Iterable<FootballClub> lookup() {
         return footballClubRepository.findAll();
     }

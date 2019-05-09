@@ -2,7 +2,9 @@ package com.football.assistant.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "football_club")
@@ -10,6 +12,7 @@ public class FootballClub implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "club_id")
     private Integer id;
 
     @Column(length = 512)
@@ -18,12 +21,52 @@ public class FootballClub implements Serializable {
     @Column(length = 512)
     private String shortName;
 
-    public FootballClub(String fullName, String shortName) {
+    @Column
+    private Integer apiId;
+
+    @Column
+    private Integer formedYear;
+
+    @Column(length = 512)
+    private String stadium;
+
+    @Column(length = 512)
+    private String websiteUrl;
+
+    @Column
+    private String description;
+
+    @Column
+    private String logoUrl;
+
+    @Column
+    private java.sql.Timestamp lastRefreshTimestamp;
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private Set<Player> players;
+
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
+
+    public FootballClub(String fullName, String shortName, Integer apiId, Integer formedYear, String stadium,
+                        String websiteUrl, String description, String logoUrl, Timestamp lastRefreshTimestamp) {
         this.fullName = fullName;
         this.shortName = shortName;
+        this.apiId = apiId;
+        this.formedYear = formedYear;
+        this.stadium = stadium;
+        this.websiteUrl = websiteUrl;
+        this.description = description;
+        this.logoUrl = logoUrl;
+        this.lastRefreshTimestamp = lastRefreshTimestamp;
+        this.players = new HashSet<>();
+        this.league = null;
     }
 
-    protected FootballClub() {}
+    protected FootballClub() {
+        this.players = new HashSet<>();
+    }
 
     public Integer getId() {
         return id;
@@ -49,27 +92,89 @@ public class FootballClub implements Serializable {
         this.shortName = shortName;
     }
 
-    @Override
-    public String toString() {
-        return "FootballClub{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", shortName='" + shortName + '\'' +
-                '}';
+    public Integer getApiId() {
+        return apiId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FootballClub that = (FootballClub) o;
-        return id.equals(that.id) &&
-                Objects.equals(fullName, that.fullName) &&
-                Objects.equals(shortName, that.shortName);
+    public void setApiId(Integer apiId) {
+        this.apiId = apiId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, fullName, shortName);
+    public Integer getFormedYear() {
+        return formedYear;
     }
+
+    public void setFormedYear(Integer formedYear) {
+        this.formedYear = formedYear;
+    }
+
+    public String getStadium() {
+        return stadium;
+    }
+
+    public void setStadium(String stadium) {
+        this.stadium = stadium;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public Timestamp getLastRefreshTimestamp() {
+        return lastRefreshTimestamp;
+    }
+
+    public void setLastRefreshTimestamp(Timestamp lastRefreshTimestamp) {
+        this.lastRefreshTimestamp = lastRefreshTimestamp;
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public void addPlayer(Player player) {
+        if(!this.players.contains(player)) {
+            this.players.add(player);
+            player.setClub(this);
+        }
+    }
+
+    public void removePlayer(Player player) {
+        if(this.players.contains(player)) {
+            this.players.remove(player);
+        }
+    }
+
 }
