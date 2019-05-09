@@ -7,7 +7,4 @@ Authors:
 - Dawid Kulma
 - Patryk Węgrzyn
 
-
-Notes:
-- Actuator is up (/actuator/{endpoint}, endpoints: health, info, beans, mappings, etc)
-- Spring Devtools takes care of automatically reloading the app after changes are detected (e.g. in Intellij you only need to do Build -> Build Project)
+Latest Stable Release: [http://football-assistant.herokuapp.com/](http://football-assistant.herokuapp.com/)
