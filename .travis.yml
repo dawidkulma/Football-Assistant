@@ -9,9 +9,9 @@ script:
 - "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"
 env:
   global:
-  # Dockerhub username
+  # DOCKER_USER
   - secure: BptDeLZo2I0uoCmPDFt22g1kqycj8RjiuocrLYrbe4wm6k+bGoEm/Jr6Ed/oq+jb5Zy3ylS11sqYYSghx3PGxXr3Y1f2qkQcun3spoZm2A8oXfBVrp2tbaEsBnsGCEq8AKvWHQoQ5r5JgJ3bSzBCUeRlUTmWJsiXaBOHuWpMm192B9QblwBoul4lgjmzAdyqelcMzYcLzsTaPQA+YYqQk43+uercDz9lJbv36f1fjWmVdOUGhpe7xoRvB6wGQX+11MKc0EnNj/hJ8VLyfsGE14aj9HRqz+Fey6oi5WhvCv35NtouisQ1Gzm/DwtqsK7Rx2lJaj30O36LTUoAsuCuGu/wfyIdA8JduUh+3SNzJsgKGu8bhNpn2CESQ3ARYkGifLvVrxO9GQfvsuKpq/hU2/sH0v3XppFeEHGLOCPCkXI8MZSbNmrfkbgSRuD7yp104bmwhQuUAUDX3ZRcEO3pX1OfogQJqsB0/4RsUh0GScOsAwqREPl7RB+Z+tA18hQA1bd4zmXS30oyP0pDavWV+do4A919ZYUvm6p41B5//4rY8KSubPwhlsJwgNNaY7pQZiwFbvw+Tl6dDRUUyK1I5f6W1QzZT4eFdmWwSQWLg0DfsmP3C1ULIleigHB54bKogonZqmj9PTk46v1iFuNsA7ikiFEHJ6deNM9ot/M3JMc=
-  # Dockerhub password
+  # DOCKER_PASS
   - secure: atSQrBcDDJa7SMIeZBjUkF09s9OixWgtKFvX4qx4yB2gN5JO+GBbLUxtiGnrqQYFWA69qQE7saXITwlZB7XkMGMG8WIG8bgEBllB6+DtIcR6NKGMeki03MPMLcoz9ViAUbrbpU2eyBRgqEkS5qWia4Wg3BNwDy0Jc4X5CLrOjLGH4/ZyMQZqa9NWe7/6QzlYhcj+/WnNxj/5qrJi9BzdcAxyyuV+1V8n+5z9wSZunS18b4JDvGRBEBbrzY8ogAfUWy7Uj///8P9TcOE24Plu//Fhd3L5RAlNy5IIbzX4sRHUg5gzhcdostMdwv4Sewu8/0YYoI0mtqI1F1ejEo33wJrssegK1p0ldkR/vEIDqZLn/yb8aWS4XPWVhOypJgQEDNDE+JFwOt+k6wd41laJ64ZhXtTxaA1ipbCp98Pg/EibGLeAfkPYOKbGrP5kTKjVN01DS0KHWqkcUUx5dtExRI4qn1YLGBVo3LMLZkGENYUx8zAg4P8Jq1R/SU7T0okmT7K2KtD8Ps148pP7RrjteG6b3QYOX720wOEFncd1JhDfhLrVRmV4GxjYMv9mlOAqTcwT2UZwXXMYtBRuczVAJZdgBOW+ScUx1VZQPcpWflZeEoDabnJ8QNmvS7vRtEPkGlnabOyCDuJlwGCo9tNvGZfpjSziu6F4Fi5uxJJs7LY=
   - COMMIT=${TRAVIS_COMMIT::7}
 addons:
@@ -22,7 +22,7 @@ addons:
 services:
 - docker
 after_success:
-- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH;
   fi`
 - export IMAGE_NAME=pwegrzyndocking/footballassistant
