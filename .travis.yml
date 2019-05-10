@@ -6,7 +6,7 @@ before_install:
 - chmod +x mvnw
 script:
 - "./mvnw clean install -B"
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+- sonar-scanner
 env:
   global:
   - secure: SdWMcO8909pbZavfabnNUGU18qdl7uHdFjnjv1XgbzQ+xYKGrHgnN+aC70f5TFywtmvlfijz3ykmIegSuqwUqa2KRCKYZF8xv/okJOPn54fNhrr6lEqgfIGjeWkj3uwll7JpHvg3klaGJ57GuvtHb5W8VDJsXADl0NIo/Rhf7pDYEgn21D8+i0gE/2pcV4s50kZWLx+vSO0dGlNMRW3zL6xrIfW+cMlKtocKV4Xz5nLZ2kS1OAyEpaPu2hGwWxGnC9xwQhFoFxhnddy5lUSdZ9SgQYW2xI2RCxeIE6om+LZ5Vwnu4y/W0vWgNHXFP14BOvsHuKe9RpoJ1BrKmzp+D24Ups7sEno9YL5L2XDZAWfWjjmInxtRjzWagXZqEJ4eRbHxMrx4U92azTIrXF+uDQMYdDKsME6m7x4vbyJlPWP9MeDROJqjUxvEZkUHTMSn1UjJDbbUGVP5EdXMK9Cd1dt+HlXP6No+F5gu341L+GfUlb8+jzVhlhqeXnccOfa6H4Yl9fI+2AKHwet7+RNO3Zr7w3uGdsY6/A2eu5srmBsjorFZnQPWgGPxIg6gzjKQn1Iqy6ZzIA7/sjV3WUOKpcOnIhpYAF8/8zd5cmpM5wFm3tWmlbNYx/fn/oqPITcO9lMPP0JcUKfbbMWLbcWH/SfipWdB6HmOi/kt9jrgMRc=
