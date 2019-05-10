@@ -29,9 +29,9 @@ after_success:
 - docker push $IMAGE_NAME
 deploy:
   provider: heroku
+  app: football-assistant
   api_key:
     secure: RvL1LHIR9XukgzLdX3tFqvbtsLEtYwmewAiKw2ZxxUh/UAVzE2E3xZj6W7t6EGr/1h7Ss2sS7+sVZWbh5MYNwRVDdrQxnmRImDc6HiwjcwQAtHiAaqKN/GM+9ZsRABnsqSowm3CavDEoBA4HN8vejIAe+WnO6OrmfbBYq8hkWhwqLSDRH4jUc9PfLbvSYhO4fE5Ng3ZopvEL4gB+eyRJY036bQcpoyc2lni22bekGTYpZVHybghm64VdAIHAHjqGVp5EskP+Inz+9h9r8j0tqVjOYc3JvkRm9eO8Un4immKwF27jGy7DqPs8LqnZKb1CfYX85i4CLBqAIIO/kdTqa9F33Dlfl7EX5pQHaZSrC7FVsK1ld5ZY3UckHavifLDeSxgHGCC7QVgBQWMnlWnJLtNsNSTD98x/YzdxNMy1XIJodUefCRVBaPsHDVJLj+8D4pndWFFt1IVmlsWRk6IMtWRZJ3eJu9AbBqYsfVkIEKnUaI0UQ0witYKAbEd2eZwk4k+3OjaiC/2mcfDLLmtxeeUFBYbaAX5Tf+iN4rKT2l3NID1xDWNWAcKg6KXbVMf+i2YVZIUMez6+9t6KxUwCAw/Xt8popsBUDl/IJlDX/Jwj1fIj0A81rvl7GuBZVb4uWinBZ/mr94vhcrir5jqdFSQkS27lOEMhYm183Dkj+ys=
-    app: football-assistant
 cache:
   directories:
   - "$HOME/.m2/repository"
