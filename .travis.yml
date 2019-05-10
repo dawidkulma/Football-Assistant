@@ -1,11 +1,35 @@
+sudo: required
 language: java
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 before_install:
-  - chmod +x mvnw
-
-#deploy:
-#  provider: heroku
-#  api_key:
-#    secure: "ENCRYPTED_API_KEY"
+- chmod +x mvnw
+script:
+- "./mvnw clean install -B"
+- "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"
+env:
+  global:
+  - secure: SdWMcO8909pbZavfabnNUGU18qdl7uHdFjnjv1XgbzQ+xYKGrHgnN+aC70f5TFywtmvlfijz3ykmIegSuqwUqa2KRCKYZF8xv/okJOPn54fNhrr6lEqgfIGjeWkj3uwll7JpHvg3klaGJ57GuvtHb5W8VDJsXADl0NIo/Rhf7pDYEgn21D8+i0gE/2pcV4s50kZWLx+vSO0dGlNMRW3zL6xrIfW+cMlKtocKV4Xz5nLZ2kS1OAyEpaPu2hGwWxGnC9xwQhFoFxhnddy5lUSdZ9SgQYW2xI2RCxeIE6om+LZ5Vwnu4y/W0vWgNHXFP14BOvsHuKe9RpoJ1BrKmzp+D24Ups7sEno9YL5L2XDZAWfWjjmInxtRjzWagXZqEJ4eRbHxMrx4U92azTIrXF+uDQMYdDKsME6m7x4vbyJlPWP9MeDROJqjUxvEZkUHTMSn1UjJDbbUGVP5EdXMK9Cd1dt+HlXP6No+F5gu341L+GfUlb8+jzVhlhqeXnccOfa6H4Yl9fI+2AKHwet7+RNO3Zr7w3uGdsY6/A2eu5srmBsjorFZnQPWgGPxIg6gzjKQn1Iqy6ZzIA7/sjV3WUOKpcOnIhpYAF8/8zd5cmpM5wFm3tWmlbNYx/fn/oqPITcO9lMPP0JcUKfbbMWLbcWH/SfipWdB6HmOi/kt9jrgMRc=
+  - secure: nBdWORyt12M8rcfEvS3Yu/06josuKDoAFXqdPXtOaRPCb8Mf3UNAaXUpFpn5f885rdstS/jQ2ybGyx+9nZlz+BBpcSzFV/7j+SDadMm83v5Q7Y+3lklgHBzb9B4N7glEsBndqWJT7Lk1UYIUyFICp96wreHpia77yEwhAOdsnZtrQVL0+d7UH+qja1XIL6MPbFfki2TwDzR/ZXPRmACmV9iJCu/iIMJ65x2lfAfP/AgXSUyJSn8AWOVdpMaj6pZh/Sg9XXNqOXQIq21C97gkmHDHzNjh0WgWvokHVMKz0DjlMGMEkLZZc3HRD2cYi3hKRQUZj4KTToCJR1JcSOEm1Kv9SAzSVp5DwjkP2MglFeVCx26ZQBHlLjaMWnid10Jx5s4NMPiD7ROF9v3javeNqDtmB6i9VLFE3Ezr2LobOSpel+dW3+C9tpNX7tTEBm4mX8zx5qpQ7xUTbf+ohk4PZYcNGuP8Qv88gUKV1BeZnWnN5b9JbcrFpA2kpIr06bXC7uYckRM/MJ6jazi8N8RiybUdPhzBNwAg7y9I7XeVNsJ5HalngfAfYNfMZt7KQFHUQaptFEHa+oH2Gw/MDKjR/4Lnx+95NdLc892uv979HR5Y7h2tLpsK5852fxwpjQwzWmGLpnPb+Cp7rKrGqd+IdF2JxWv2whUoeXnhkeoGQ8w=
+  - secure: V4a2DuffKoxUkYgnpm/Wu724e7FoKk0z6p/tV/LUSwLbExs4kbOnGHu9UD2WYbt8398ucYVUNHKDM5nH8tyRh5zS4BeVHRJ3oXqiNUSp4Pfkrei1n2fq61BMSQ39ciWrGpnqSndzQW92GEQ3XibiXNOzW1fxvmv4BZPMppbzBNEzWlpdKQdWVGsU15VpLrHnz2spALzGpr59QT/BNUFsIqSBvEj84CRxIp6E8szerVrfRKbNSmb5Lu8c2fmi4ukDPA8VcJ2vCXgYHlDbUIviCkQnJm0hKVih40ullepGk9wjUBOwPdv9MKGZFD4ZDJfRbCQilIOCeXjHBGVoYXDv0mh/OGGOdOXAQceWDCYbebtv6Uy5mWBLtt3mSd7erlIaww0gWHHRg59Z+aIMzF8tn/7NZz8RCPtoj5zjz15W7lToKSilmVZDcYAr2PH6E3Eqc7GYlOp1oe6cKcGW4rDZVmt2i/DycuMtQiuuVQFFHb4vxADXlLAkFHexEyLNexHKBsnVAngrWCFGDulLODNi3ewIF0lqUq/AmROcwsdk5ATcOesApS32mJG+4Fy3rQcpiH5MY9ZX1XbbKyAlc8+V6RgUb3wSIHj4pGhevPhgEBU3M30SUDeCn4jK6ADYkJ2Ut4ze2RdegbqraKTLFk5NW2513KcsjLGboBHHeizX0gE=
+  - COMMIT=${TRAVIS_COMMIT::7}
+addons:
+  sonarcloud:
+    organization: footballassitantteam
+    token:
+      secure: "$SONAR_TOKEN"
+services:
+- docker
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH;
+  fi`
+- export IMAGE_NAME=pwegrzyndocking/footballassitant
+- docker build -t $IMAGE_NAME:$COMMIT .
+- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME
+deploy:
+  provider: heroku
+  api_key:
+    secure: pBhO5miI3IxbDMpZwnZ+ZAk0+POaotferoA/PYko9+T1MBJo92pBFlvtZo7aElVMsthh0Zu1KiRq5GdZzAq8ciH7Oc6bmXM7cYxJdA7/0w7qHoz/EylkdcjyNGni1rHtOd6K9VQf45BR1oBQg/c9eoEGmiTrxI56N2+W0Cn9NlvzEkInD9+XUk1Tyegzv6oDFWHRMpwx/t8yiIXqI37Y6uYDvdwXbW6/LaAcK/GY2qR3OLtMuhWyc8yITmc8t4LuX6t8TiQDil67AxM6qaQSH9cjsWLJ6qDdpzEv7CqxhFeXWoZOaLKKdgHxoX6f8jQoDWnvZTQ2tvYCc+oan1kdeB9oiomGZKaZ5iz8PnMak+jofqPcRFboWH83QaK1xlcE4BVuVlmGfgO65u2J4s1b4THUEnzNImGxjLHIoLqL+zVWi6DGwjGVat4xmDSiB+Wzgjl24I7l/BjjuocNm2CIr/oeLs+gGTxtckwycm1qxaRDcry7e3mlwvcR8EfByupDH/QA7bbktfQGoQBCBr33tmAbWgro9smp2FgMQqbfWvcnmCRFu4XRS/gK2n3Tcu+kt2F99gqjX1h1+MTt19gLij5ROO6+mgqo6qA3N+Xqkej8b//Bk/aVhLAljcIrlV+ZMuSbRTv5PkZ5aEUicpN/W0/qSNin39gCdmv2s36ivCw=
+    app: football-assistant
