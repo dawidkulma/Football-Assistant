@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8:slim
+FROM carsharing/alpine-oraclejdk8-bash
 VOLUME /tmp
 ADD target/assistant-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
