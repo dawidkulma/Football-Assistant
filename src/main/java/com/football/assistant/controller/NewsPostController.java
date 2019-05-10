@@ -5,6 +5,8 @@ import com.football.assistant.service.NewsPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +23,7 @@ public class NewsPostController {
     @Autowired
     private NewsPostService newsPostService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<NewsPost> getNewsPosts() {
         List<NewsPost> result = new LinkedList<>();
         newsPostService.lookup().forEach(post -> result.add(post));
@@ -29,7 +31,7 @@ public class NewsPostController {
     }
 
     // Not ready yet
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ModelAndView createNewsPost(@Valid NewsPost post, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {

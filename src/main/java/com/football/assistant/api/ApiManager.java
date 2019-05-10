@@ -68,8 +68,7 @@ public class ApiManager {
         int code = connection.getResponseCode();
         if(code == 400 || code == 404)
             throw new WebApiException(connection.getResponseMessage());
-        InputStream stream = new URL(urlNew).openStream();
-        return stream;
+        return new URL(urlNew).openStream();
     }
 
 }

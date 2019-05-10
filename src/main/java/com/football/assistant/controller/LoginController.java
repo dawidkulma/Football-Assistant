@@ -8,8 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -20,7 +20,7 @@ public class LoginController {
 
     private boolean adminAccountReady = false;
 
-    @RequestMapping(value={"/login"}, method = RequestMethod.GET)
+    @GetMapping("/login")
     public ModelAndView login(){
         if(!adminAccountReady) {
             createAdminAccount();
@@ -31,7 +31,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/registration", method = RequestMethod.GET)
+    @GetMapping("/registration")
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
@@ -40,7 +40,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @PostMapping("/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
@@ -63,7 +63,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/admin", method = RequestMethod.GET)
+    @GetMapping("/admin")
     public ModelAndView admin(){
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -74,7 +74,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/access-denied"}, method = RequestMethod.GET)
+    @GetMapping("/access-denied")
     public ModelAndView accessDenied(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("access-denied");
