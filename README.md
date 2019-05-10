@@ -1,6 +1,5 @@
 # Football-Assistant
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=a196d6d67bebbf84397ad0fcc2c6bc26c622ec31&metric=alert_status)](https://sonarcloud.io/dashboard?id=a196d6d67bebbf84397ad0fcc2c6bc26c622ec31)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.football%3Aassistant&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.football%3Aassistant)
 
 Web App providing helpful info for football fans
 
