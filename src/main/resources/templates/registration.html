@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" >
 <head>
     <title>Football Assistant</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
@@ -15,7 +15,7 @@
             <form autocomplete="off" action="#" th:action="@{/registration}"
                   th:object="${user}" method="post" class="form-horizontal"
                   role="form">
-                <h2>Register to Football Assistant</h2>
+                <h2>Register your own account</h2>
                 <div class="form-group">
                     <div class="col-sm-9">
                         <label th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"

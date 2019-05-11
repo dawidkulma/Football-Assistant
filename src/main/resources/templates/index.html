@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" layout:decorate="~{common_layout.html}">
 <head lang="en">
     <meta charset="UTF-8"/>
     <title>Football Assistant</title>
 </head>
 <body>
-    <h1>Football Assistant</h1>
-    <br>
-    <p><a th:href="@{/login}">Sign In</a></p>
-    <p><a th:href="@{/registration}">New User? Start here</a></p>
-    <p><a th:href="@{/admin}">Admin panel</a></p>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <div class="jumbotron">
+                <h1 class="display-4">Football Assistant</h1>
+                <p class="lead">Your personal and fully customizable source of soccer news from all around the globe!</p>
+                <hr class="my-4">
+                <p>Please note, that the app is still in beta phase and some visual bugs may still happen.</p>
+                <a class="btn btn-primary btn-lg" href="/features" role="button">Learn more</a>
+            </div>
+            <br>
+            <p><a th:href="@{/login}">Sign In</a></p>
+            <p><a th:href="@{/registration}">New User? Start here</a></p>
+        </div>
+    </div>
+</section>
 </body>
 </html>

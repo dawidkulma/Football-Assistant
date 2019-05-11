@@ -26,4 +26,8 @@ public class FootballClubService extends ApiConsumer {
         return footballClubRepository.count();
     }
 
+    public FootballClub findByApiId(Integer apiId) {
+        return footballClubRepository.findByApiId(apiId);
+    }
+
 }

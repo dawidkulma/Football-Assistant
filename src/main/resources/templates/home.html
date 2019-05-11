@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" layout:decorate="~{common_layout.html}">
 <head>
     <title>Football Assistant</title>
     <script type="text/javascript" th:src="@{/js/home.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
 </head>
-    <body>
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-    <br><div id="newsPostList"></div><br>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-    </body>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+            <br><div id="newsPostList"></div><br>
+        </div>
+    </div>
+</section>
+</body>
 </html>
