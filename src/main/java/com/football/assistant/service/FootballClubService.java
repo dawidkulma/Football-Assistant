@@ -7,6 +7,9 @@ import com.football.assistant.repository.FootballClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class FootballClubService extends ApiConsumer {
 
@@ -27,7 +30,24 @@ public class FootballClubService extends ApiConsumer {
     }
 
     public FootballClub findByApiId(Integer apiId) {
-        return footballClubRepository.findByApiId(apiId);
+        FootballClub footballClub = footballClubRepository.findByApiId(apiId);
+        if(footballClub == null) {
+            return fetchFromApiAndPersist(apiId);
+        }
+        Date lastRefreshDate = new Date(footballClub.getLastRefreshTimestamp().getTime());
+        Date currentDate = new Date();
+        long differenceInMilliseconds = currentDate.getTime() - lastRefreshDate.getTime();
+        if (TimeUnit.DAYS.convert(differenceInMilliseconds, TimeUnit.MILLISECONDS) > refreshPeriodInDays) {
+            return fetchFromApiAndPersist(apiId);
+        }
+        return footballClub;
+    }
+
+    private FootballClub fetchFromApiAndPersist(Integer apiId) {
+        FootballClub clubFromApi = apiManager.fetchFootballClubById(apiId);
+        if (clubFromApi == null) return null;
+        footballClubRepository.save(clubFromApi);
+        return clubFromApi;
     }
 
 }

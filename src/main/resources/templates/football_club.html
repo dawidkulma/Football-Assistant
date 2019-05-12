@@ -1,14 +1,113 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{common_layout.html}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" layout:decorate="~{common_layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Football Club</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/football_club.css}"/>
 </head>
 <body>
 <section layout:fragment="content">
     <div class="container">
         <div class="panel-group" style="margin-top:40px">
-            <p><h1>A football club</h1></p>
+            <div class="panel panel-primary">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title mb-4">
+                                        <div class="d-flex justify-content-start">
+                                            <div class="image-container">
+                                                <img th:src="@{${club.logoUrl}}" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                            </div>
+                                            <div class="userData ml-3">
+                                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><p th:text="${club.fullName}" /></h2>
+                                                <h6 class="d-block">Football Club</h6>
+                                                <h6 class="d-block">Last Update: <p th:text="${club.lastRefreshTimestamp}" /></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="detailedInfo-tab" data-toggle="tab" href="#detailedInfo" role="tab" aria-controls="detailedInfo" aria-selected="false">Detailed Info</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content ml-1" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-2 col-5">
+                                                            <label style="font-weight:bold;">Full Name</label>
+                                                        </div>
+                                                        <div class="col-md-8 col-6">
+                                                            <p th:text="${club.fullName}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-2 col-5">
+                                                            <label style="font-weight:bold;">Short Name</label>
+                                                        </div>
+                                                        <div class="col-md-8 col-6">
+                                                            <p th:text="${club.shortName}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+
+
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-2 col-5">
+                                                            <label style="font-weight:bold;">Formation Year</label>
+                                                        </div>
+                                                        <div class="col-md-8 col-6">
+                                                            <p th:text="${club.formedYear}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-2 col-5">
+                                                            <label style="font-weight:bold;">Stadium</label>
+                                                        </div>
+                                                        <div class="col-md-8 col-6">
+                                                            <p th:text="${club.stadium}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-md-2 col-5">
+                                                            <label style="font-weight:bold;">Website</label>
+                                                        </div>
+                                                        <div class="col-md-8 col-6">
+                                                            <p th:text="${club.websiteUrl}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+
+                                                </div>
+                                                <div class="tab-pane fade" id="detailedInfo" role="tabpanel" aria-labelledby="detailedInfo-tab">
+                                                    <p th:text="${club.description}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

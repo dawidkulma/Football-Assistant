@@ -33,7 +33,7 @@ public class FootballClub implements Serializable {
     @Column(length = 512)
     private String websiteUrl;
 
-    @Column
+    @Column(length =  10000)
     private String description;
 
     @Column
