@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{common_layout.html}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Assistant - Admin - Post Form</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <div class="container">
+
+                <h3>News Posts</h3>
+                <hr>
+
+                <p class="h4 mb-4">Save Post</p>
+
+                <form action="#" th:action="@{/admin/posts/save}"
+                      th:object="${post}" method="POST" id="savepostform">
+
+                    <input type="hidden" th:field="*{id}" />
+
+                    <input type="text" th:field="*{title}"
+                           class="form-control mb-4 col-4" placeholder="Title">
+
+                    <input type="text" th:field="*{fotoUrl}"
+                           class="form-control mb-4 col-4" placeholder="Link to thumbnail photo">
+
+                    <textarea class="form-control mb-4 col-4"  rows = "10" cols = "80" th:field = "*{content}" form = "savepostform" placeholder="Content">... </textarea>
+
+                    <button type="submit" class="btn btn-info col-2">Save</button>
+
+                </form>
+
+                <hr>
+                <a th:href="@{/admin/posts}">Back to Posts List</a>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

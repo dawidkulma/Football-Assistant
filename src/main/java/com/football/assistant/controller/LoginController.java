@@ -63,17 +63,6 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping("/admin")
-    public ModelAndView admin(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getNickname() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin");
-        return modelAndView;
-    }
-
     @GetMapping("/access-denied")
     public ModelAndView accessDenied(){
         ModelAndView modelAndView = new ModelAndView();

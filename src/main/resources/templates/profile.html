@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{common_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Assistant - Profile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <div class="panel panel-primary">
+                <p class="admin-message-text">My Account</p>
+                <p class="font-weight-bold">Nickname:</p>
+                <p th:text="${user.nickname}" /><br>
+                <p class="font-weight-bold">E-mail:</p>
+                <p th:text="${user.email}" /><br>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

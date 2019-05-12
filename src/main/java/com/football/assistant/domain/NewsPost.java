@@ -27,10 +27,14 @@ public class NewsPost implements Serializable {
     @JoinColumn(name = "user_id")
     private User author;
 
-    public NewsPost(String title, String content, Timestamp creationTimestamp) {
+    @Column
+    private String fotoUrl;
+
+    public NewsPost(String title, String content, Timestamp creationTimestamp, String fotoUrl) {
         this.title = title;
         this.content = content;
         this.creationTimestamp = creationTimestamp;
+        this.fotoUrl = fotoUrl;
     }
 
     public NewsPost() {}
@@ -67,6 +71,14 @@ public class NewsPost implements Serializable {
         this.creationTimestamp = creationTimestamp;
     }
 
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
     public User getAuthor() {
         return author;
     }
@@ -81,16 +93,17 @@ public class NewsPost implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NewsPost newsPost = (NewsPost) o;
-        return id.equals(newsPost.id) &&
+        return Objects.equals(id, newsPost.id) &&
                 Objects.equals(title, newsPost.title) &&
                 Objects.equals(content, newsPost.content) &&
                 Objects.equals(creationTimestamp, newsPost.creationTimestamp) &&
-                Objects.equals(author, newsPost.author);
+                Objects.equals(author, newsPost.author) &&
+                Objects.equals(fotoUrl, newsPost.fotoUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, creationTimestamp, author);
+        return Objects.hash(id, title, content, creationTimestamp, author, fotoUrl);
     }
 
     @Override
@@ -101,6 +114,7 @@ public class NewsPost implements Serializable {
                 ", content='" + content + '\'' +
                 ", creationTimestamp=" + creationTimestamp +
                 ", author=" + author +
+                ", fotoUrl='" + fotoUrl + '\'' +
                 '}';
     }
 }

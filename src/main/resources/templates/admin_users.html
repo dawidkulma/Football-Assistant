@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{common_layout.html}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Assistant - Admin - Users</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <div class="container">
+
+                <h3>Registered Users</h3>
+                <hr>
+
+                <a th:href="@{/admin/summary}"
+                   class="btn btn-primary btn-sm mb-3">
+                    Back
+                </a>
+
+
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Nickname</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="user : ${users}">
+
+                        <td th:text="${user.nickname}" />
+                        <td th:text="${user.email}" />
+
+                        <td>
+                            <div th:if="${user.id != 1}">
+                                <a th:href="@{/admin/users/delete(userId=${user.id})}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+                                    Delete
+                                </a>
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

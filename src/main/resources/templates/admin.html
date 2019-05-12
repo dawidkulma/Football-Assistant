@@ -10,10 +10,9 @@
     <div class="container">
         <div class="panel-group" style="margin-top:40px">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <span th:utext="${userName}"></span>
-                </div>
-                <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+                <p class="admin-message-text">Administration Panel</p>
+                <a href="/admin/users">Manage users</a><br>
+                <a href="/admin/posts">Manage posts</a><br>
             </div>
         </div>
     </div>
