@@ -18,9 +18,6 @@ public class FootballClub implements Serializable {
     @Column(length = 512)
     private String fullName;
 
-    @Column(length = 512)
-    private String shortName;
-
     @Column
     private Integer apiId;
 
@@ -49,10 +46,9 @@ public class FootballClub implements Serializable {
     @JoinColumn(name = "league_id")
     private League league;
 
-    public FootballClub(String fullName, String shortName, Integer apiId, Integer formedYear, String stadium,
+    public FootballClub(String fullName, Integer apiId, Integer formedYear, String stadium,
                         String websiteUrl, String description, String logoUrl, Timestamp lastRefreshTimestamp) {
         this.fullName = fullName;
-        this.shortName = shortName;
         this.apiId = apiId;
         this.formedYear = formedYear;
         this.stadium = stadium;
@@ -82,14 +78,6 @@ public class FootballClub implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
     }
 
     public Integer getApiId() {

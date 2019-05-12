@@ -28,12 +28,12 @@ public class Player implements Serializable {
     private String dateBorn;
 
     @Column
-    private long wage;
+    private String wage;
 
     @Column
     private String birthLocation;
 
-    @Column
+    @Column(length = 10000)
     private String description;
 
     @Column
@@ -53,7 +53,7 @@ public class Player implements Serializable {
     private FootballClub club;
 
     public Player(Integer apiId, Timestamp lastRefreshTimestamp, String nationality, String fullName, String dateBorn,
-                  long wage, String birthLocation, String description, String position, double height, double weight,
+                  String wage, String birthLocation, String description, String position, double height, double weight,
                   String thumbnailUrl) {
         this.apiId = apiId;
         this.lastRefreshTimestamp = lastRefreshTimestamp;
@@ -120,11 +120,11 @@ public class Player implements Serializable {
         this.dateBorn = dateBorn;
     }
 
-    public long getWage() {
+    public String getWage() {
         return wage;
     }
 
-    public void setWage(long wage) {
+    public void setWage(String wage) {
         this.wage = wage;
     }
 

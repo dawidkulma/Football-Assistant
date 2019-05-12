@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" layout:decorate="~{common_layout.html}">
 <head>
-    <title>Football Club</title>
+    <title>Player</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/football_club.css}"/>
 </head>
@@ -19,12 +19,12 @@
                                     <div class="card-title mb-4">
                                         <div class="d-flex justify-content-start">
                                             <div class="image-container">
-                                                <img th:src="@{${club.logoUrl}}" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                                <img th:src="@{${league.logoUrl}}" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
                                             </div>
                                             <div class="userData ml-3">
-                                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><p th:text="${club.fullName}" /></h2>
-                                                <h6 class="d-block">Football Club</h6>
-                                                <h6 class="d-block">Last Update: <p th:text="${club.lastRefreshTimestamp}" /></h6>
+                                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><p th:text="${league.fullName}" /></h2>
+                                                <h6 class="d-block">League</h6>
+                                                <h6 class="d-block">Last Update: <p th:text="${league.lastRefreshTimestamp}" /></h6>
                                             </div>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                                     <a class="nav-link" id="detailedInfo-tab" data-toggle="tab" href="#detailedInfo" role="tab" aria-controls="detailedInfo" aria-selected="false">Detailed Info</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" id="players-tab" data-toggle="tab" href="#players" role="tab" aria-controls="players" aria-selected="false">Players</a>
+                                                    <a class="nav-link" id="clubs-tab" data-toggle="tab" href="#clubs" role="tab" aria-controls="clubs" aria-selected="false">Clubs</a>
                                                 </li>
                                             </ul>
                                             <div class="tab-content ml-1" id="myTabContent">
@@ -51,61 +51,51 @@
                                                             <label style="font-weight:bold;">Full Name</label>
                                                         </div>
                                                         <div class="col-md-8 col-6">
-                                                            <p th:text="${club.fullName}" />
+                                                            <p th:text="${league.fullName}" />
                                                         </div>
                                                     </div>
                                                     <hr />
 
                                                     <div class="row">
                                                         <div class="col-sm-3 col-md-2 col-5">
-                                                            <label style="font-weight:bold;">Formation Year</label>
+                                                            <label style="font-weight:bold;">Year of Formation</label>
                                                         </div>
                                                         <div class="col-md-8 col-6">
-                                                            <p th:text="${club.formedYear}" />
+                                                            <p th:text="${league.formedYear}" />
                                                         </div>
                                                     </div>
                                                     <hr />
-                                                    <div class="row">
-                                                        <div class="col-sm-3 col-md-2 col-5">
-                                                            <label style="font-weight:bold;">Stadium</label>
-                                                        </div>
-                                                        <div class="col-md-8 col-6">
-                                                            <p th:text="${club.stadium}" />
-                                                        </div>
-                                                    </div>
-                                                    <hr />
+
+
                                                     <div class="row">
                                                         <div class="col-sm-3 col-md-2 col-5">
                                                             <label style="font-weight:bold;">Website</label>
                                                         </div>
                                                         <div class="col-md-8 col-6">
-                                                            <p th:text="${club.websiteUrl}" />
+                                                            <p th:text="${league.websiteUrl}" />
                                                         </div>
                                                     </div>
 
                                                 </div>
                                                 <div class="tab-pane fade" id="detailedInfo" role="tabpanel" aria-labelledby="detailedInfo-tab">
-                                                    <p th:text="${club.description}" />
+                                                    <p th:text="${league.description}" />
                                                 </div>
-                                                <div class="tab-pane fade" id="players" role="tabpanel" aria-labelledby="players-tab">
+                                                <div class="tab-pane fade" id="clubs" role="tabpanel" aria-labelledby="clubs-tab">
                                                     <table class="table table-bordered table-striped">
                                                         <thead class="thead-blue">
                                                         <tr>
-                                                            <th>Player</th>
-                                                            <th>Position</th>
+                                                            <th>Club</th>
                                                             <th>Action</th>
                                                         </tr>
                                                         </thead>
 
                                                         <tbody>
-                                                        <tr th:each="player : ${club.players}">
+                                                        <tr th:each="club : ${league.clubs}">
 
-                                                            <td th:text="${player.fullName}" />
-
-                                                            <td th:text="${player.position}" />
+                                                            <td th:text="${club.fullName}" />
 
                                                             <td>
-                                                                <a th:href="@{/player/view/{id}/(id=${player.apiId})}"
+                                                                <a th:href="@{/football_club/view/{id}/(id=${club.apiId})}"
                                                                    class="btn btn-info btn-sm">
                                                                     Show
                                                                 </a>

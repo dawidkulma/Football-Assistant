@@ -3,11 +3,13 @@ package com.football.assistant.service;
 import com.football.assistant.api.ApiConsumer;
 import com.football.assistant.api.ApiManager;
 import com.football.assistant.domain.FootballClub;
+import com.football.assistant.domain.Player;
 import com.football.assistant.repository.FootballClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -40,12 +42,19 @@ public class FootballClubService extends ApiConsumer {
         if (TimeUnit.DAYS.convert(differenceInMilliseconds, TimeUnit.MILLISECONDS) > refreshPeriodInDays) {
             return fetchFromApiAndPersist(apiId);
         }
+        if (footballClub.getPlayers().size() < 11) {
+            return fetchFromApiAndPersist(apiId);
+        }
         return footballClub;
     }
 
     private FootballClub fetchFromApiAndPersist(Integer apiId) {
         FootballClub clubFromApi = apiManager.fetchFootballClubById(apiId);
         if (clubFromApi == null) return null;
+        List<Player> players = apiManager.fetchAllPlayersInClub(apiId);
+        for(Player player: players) {
+            clubFromApi.addPlayer(player);
+        }
         footballClubRepository.save(clubFromApi);
         return clubFromApi;
     }
