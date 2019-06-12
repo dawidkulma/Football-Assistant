@@ -24,7 +24,18 @@
                                             <div class="userData ml-3">
                                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><p th:text="${club.fullName}" /></h2>
                                                 <h6 class="d-block">Football Club</h6>
-                                                <h6 class="d-block">Last Update: <p th:text="${club.lastRefreshTimestamp}" /></h6>
+                                                <h6 class="d-block">Last Update: <p style="font-size: small" th:text="${club.lastRefreshTimestamp}" /></h6>
+                                                <h6 class="d-block">
+                                                    <div th:if="${isFollowed}">
+                                                        <span style="color: gray">Followed</span>
+                                                    </div>
+                                                    <div th:unless="${isFollowed}">
+                                                        <a th:href="@{/football_club/follow(clubId=${club.apiId})}"
+                                                           class="btn btn-info btn-sm">
+                                                            Follow
+                                                        </a>
+                                                    </div>
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>

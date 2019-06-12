@@ -15,6 +15,41 @@
                 <p th:text="${user.nickname}" /><br>
                 <p class="font-weight-bold">E-mail:</p>
                 <p th:text="${user.email}" /><br>
+                <hr>
+                <br>
+                <h3>Followed Clubs</h3>
+                <br>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Football Club</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="club : ${user.followedClubs}">
+
+                        <td th:text="${club.fullName}" />
+
+                        <td>
+                            <a th:href="@{/football_club/view/{id}/(id=${club.apiId})}"
+                               class="btn btn-info btn-sm">
+                                Show
+                            </a>
+
+                            <a th:href="@{/football_club/unfollow(clubId=${club.apiId})}"
+                               class="btn btn-danger btn-sm"
+                               onclick="if (!(confirm('Are you sure you want to unfollow this club?'))) return false">
+                                Unfollow
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

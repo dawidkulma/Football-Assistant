@@ -6,10 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Football Assistant</title>
+    <style>
+        @media (min-width: 1600px) {
+            .navbar-brand{
+                margin-left:385px;
+            }
+            .navbar-toggler {
+                margin-right:385px;
+            }
+            .form-inline {
+                margin-right:385px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background-color: #77a1ff;">
     <div th:if="${#httpServletRequest.remoteUser}">
         <a class="navbar-brand" href="/home">Football Assistant</a>
     </div>
@@ -28,6 +41,11 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/api_info">API <span class="sr-only">(current)</span></a>
             </li>
+            <div th:if="${#httpServletRequest.remoteUser}">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/news_post/browse">Articles <span class="sr-only">(current)</span></a>
+                </li>
+            </div>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
@@ -49,7 +67,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>

@@ -5,6 +5,7 @@ import com.football.assistant.api.ApiManager;
 import com.football.assistant.domain.FootballClub;
 import com.football.assistant.domain.League;
 import com.football.assistant.domain.Player;
+import com.football.assistant.repository.FootballClubRepository;
 import com.football.assistant.repository.LeagueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,13 @@ public class LeagueService extends ApiConsumer {
 
     private LeagueRepository leagueRepository;
 
+    private FootballClubRepository footballClubRepository;
+
     @Autowired
-    public LeagueService(LeagueRepository leagueRepository, ApiManager apiManager) {
+    public LeagueService(LeagueRepository leagueRepository, ApiManager apiManager, FootballClubRepository footballClubRepository) {
         super(apiManager);
         this.leagueRepository = leagueRepository;
+        this.footballClubRepository = footballClubRepository;
     }
 
     public Iterable<League> lookup() {
@@ -51,7 +55,16 @@ public class LeagueService extends ApiConsumer {
         if (leagueFromApi == null) return null;
         List<FootballClub> clubs = apiManager.fetchAllClubsInLeague(apiId);
         for(FootballClub club : clubs) {
-            leagueFromApi.addClub(club);
+            FootballClub footballClubInDB = this.footballClubRepository.findByApiId(club.getApiId());
+            if (footballClubInDB == null) {
+                leagueFromApi.addClub(club);
+            } else {
+                footballClubInDB.setLeague(leagueFromApi);
+            }
+        }
+        League leagueinDB = leagueRepository.findByApiId(apiId);
+        if(leagueinDB != null) {
+            leagueRepository.delete(leagueinDB);
         }
         leagueRepository.save(leagueFromApi);
         return leagueFromApi;

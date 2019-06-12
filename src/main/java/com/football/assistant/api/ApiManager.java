@@ -77,16 +77,7 @@ public class ApiManager {
         if(arrayOfFoundPlayers == null) return null;
         if (fetchResult.size() < 1) return null;
         JsonObject foundPlayer = arrayOfFoundPlayers.getJsonObject(0);
-        Player player = null;
-        try {
-            player = new Player(id, new Timestamp(System.currentTimeMillis()), foundPlayer.getString("strNationality"),
-                    foundPlayer.getString("strPlayer"), foundPlayer.getString("dateBorn"), foundPlayer.getString("strWage"),
-                    foundPlayer.getString("strBirthLocation"), foundPlayer.getString("strDescriptionEN"), foundPlayer.getString("strPosition"),
-                    Double.parseDouble(foundPlayer.getString("strHeight")), Double.parseDouble(foundPlayer.getString("strWeight")),
-                    foundPlayer.getString("strThumb"));
-        } catch (Exception e) {
-            return null;
-        }
+        Player player = extractPlayerObject(foundPlayer);
         return player;
     }
 
@@ -177,16 +168,7 @@ public class ApiManager {
         List<Player> result = new LinkedList<>();
         for(int i = 0; i < arrayOfFoundPlayers.size(); i++) {
             JsonObject foundPlayer = arrayOfFoundPlayers.getJsonObject(i);
-            Player resultPlayer = null;
-            try {
-                resultPlayer = new Player(Integer.parseInt(foundPlayer.getString("idPlayer")), new Timestamp(System.currentTimeMillis()),
-                        foundPlayer.getString("strNationality"), foundPlayer.getString("strPlayer"), foundPlayer.getString("dateBorn"),
-                        foundPlayer.getString("strWage"), foundPlayer.getString("strBirthLocation"), foundPlayer.getString("strDescriptionEN"),
-                        foundPlayer.getString("strPosition"), Double.parseDouble(foundPlayer.getString("strHeight")),
-                        Double.parseDouble(foundPlayer.getString("strWeight")), foundPlayer.getString("strThumb"));
-            } catch (Exception e) {
-                continue;
-            }
+            Player resultPlayer = extractPlayerObject(foundPlayer);
             result.add(resultPlayer);
         }
         return result;
@@ -202,6 +184,72 @@ public class ApiManager {
 
     public String getApiUrlBase() {
         return apiUrlBase;
+    }
+
+    private Player extractPlayerObject(JsonObject foundPlayer) {
+        Player resultPlayer = null;
+        String nationality, fullName, dateBorn, wage, birthLocation, description, position, thumbnail;
+        double height, weight;
+        int playerId;
+        try {
+            playerId = Integer.parseInt(foundPlayer.getString("idPlayer"));
+        } catch (Exception e) {
+            playerId = 0;
+        }
+        try {
+            nationality = foundPlayer.getString("strNationality");
+        } catch (Exception e) {
+            nationality = "-";
+        }
+        try {
+            fullName = foundPlayer.getString("strPlayer");
+        } catch (Exception e) {
+            fullName = "-";
+        }
+        try {
+            dateBorn = foundPlayer.getString("dateBorn");
+        } catch (Exception e) {
+            dateBorn = "-";
+        }
+        try {
+            wage = foundPlayer.getString("strWage");
+        } catch (Exception e) {
+            wage = "-";
+        }
+        try {
+            birthLocation = foundPlayer.getString("strBirthLocation");
+        } catch (Exception e) {
+            birthLocation = "-";
+        }
+        try {
+            description = foundPlayer.getString("strDescriptionEN");
+        } catch (Exception e) {
+            description = "-";
+        }
+        try {
+            position = foundPlayer.getString("strPosition");
+        } catch (Exception e) {
+            position = "-";
+        }
+        try {
+            height = Double.parseDouble(foundPlayer.getString("strHeight"));
+        } catch (Exception e) {
+            height = Double.NaN;
+        }
+        try {
+            weight = Double.parseDouble(foundPlayer.getString("strWeight"));
+        } catch (Exception e) {
+            weight = Double.NaN;
+        }
+        try {
+            thumbnail = foundPlayer.getString("strThumb");
+        } catch (Exception e) {
+            thumbnail = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/User.svg/128px-User.svg.png";
+        }
+
+        resultPlayer = new Player(playerId, new Timestamp(System.currentTimeMillis()), nationality, fullName,
+                dateBorn, wage, birthLocation, description, position, height, weight, thumbnail);
+        return resultPlayer;
     }
 
     private JsonObject getJsonObjFromURL(String apiUrlSuffix) throws WebApiException, IOException {

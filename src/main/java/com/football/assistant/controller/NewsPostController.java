@@ -27,4 +27,16 @@ public class NewsPostController {
         return "news_post";
     }
 
+    @GetMapping("/browse")
+    public ModelAndView getPosts() {
+        Iterable<NewsPost> posts = newsPostService.lookup();
+        for (NewsPost post : posts) {
+            post.setDigest(post.getContent().substring(0, 100) + "...");
+        }
+        ModelAndView postsView = new ModelAndView();
+        postsView.setViewName("posts");
+        postsView.addObject("posts", posts);
+        return postsView;
+    }
+
 }

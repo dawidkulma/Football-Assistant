@@ -10,10 +10,13 @@
 <section layout:fragment="content">
     <div class="container">
         <div class="panel-group" style="margin-top:40px">
-            <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-            <br><div id="newsPostList"></div><br>
+            <h2 th:inline="text">Latest Events and News</h2>
+            <br>
+            <div id="posts"></div>
+            <br>
         </div>
     </div>
+    <p id="hiddenUserData" style="display: none;" th:text="${followedTeamsIds}" />
 </section>
 </body>
 </html>

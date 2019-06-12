@@ -40,6 +40,10 @@ public class User implements Serializable {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_club", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "club_id"))
+    private Set<FootballClub> followedClubs;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<NewsPost> newsPosts;
 
@@ -53,11 +57,13 @@ public class User implements Serializable {
         this.active = active;
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
+        this.followedClubs = new HashSet<>();
     }
 
     public User() {
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
+        this.followedClubs = new HashSet<>();
     }
 
     public int getId() {
@@ -108,36 +114,6 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", active=" + active +
-                ", roles=" + roles +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                active == user.active &&
-                email.equals(user.email) &&
-                password.equals(user.password) &&
-                Objects.equals(nickname, user.nickname) &&
-                roles.equals(user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password, nickname, active, roles);
-    }
-
     public void addRole(Role newRole) {
         if(!this.roles.contains(newRole)) {
             this.roles.add(newRole);
@@ -170,6 +146,27 @@ public class User implements Serializable {
     public void removeNewsPost(NewsPost post) {
         if(this.newsPosts.contains(post)) {
             this.newsPosts.remove(post);
+        }
+    }
+
+    public Set<FootballClub> getFollowedClubs() {
+        return followedClubs;
+    }
+
+    public void setFollowedClubs(Set<FootballClub> followedClubs) {
+        this.followedClubs = followedClubs;
+    }
+
+    public void addFollowedClub(FootballClub club) {
+        if(!this.followedClubs.contains(club)) {
+            this.followedClubs.add(club);
+            club.addFollower(this);
+        }
+    }
+
+    public void removeFollowedClub(FootballClub club) {
+        if(this.followedClubs.contains(club)) {
+            this.followedClubs.remove(club);
         }
     }
 }

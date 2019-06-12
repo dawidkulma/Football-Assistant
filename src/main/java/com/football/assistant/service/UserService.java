@@ -47,4 +47,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public UserRepository getUserRepository() {
+        return this.userRepository;
+    }
+
 }

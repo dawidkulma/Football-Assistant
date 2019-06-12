@@ -47,6 +47,11 @@ public class PlayerService extends ApiConsumer {
     private Player fetchFromApiAndPersist(Integer apiId) {
         Player playerFromApi = apiManager.fetchPlayerById(apiId);
         if (playerFromApi == null) return null;
+        Player playerInDB = playerRepository.findByApiId(apiId);
+        if (playerInDB != null) {
+            playerFromApi.setClub(playerInDB.getClub());
+            playerRepository.delete(playerInDB);
+        }
         playerRepository.save(playerFromApi);
         return playerFromApi;
     }

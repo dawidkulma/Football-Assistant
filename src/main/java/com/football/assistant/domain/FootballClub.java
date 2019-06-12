@@ -46,6 +46,9 @@ public class FootballClub implements Serializable {
     @JoinColumn(name = "league_id")
     private League league;
 
+    @ManyToMany(mappedBy = "followedClubs")
+    private Set<User> followers;
+
     public FootballClub(String fullName, Integer apiId, Integer formedYear, String stadium,
                         String websiteUrl, String description, String logoUrl, Timestamp lastRefreshTimestamp) {
         this.fullName = fullName;
@@ -57,11 +60,13 @@ public class FootballClub implements Serializable {
         this.logoUrl = logoUrl;
         this.lastRefreshTimestamp = lastRefreshTimestamp;
         this.players = new HashSet<>();
+        this.followers = new HashSet<>();
         this.league = null;
     }
 
     protected FootballClub() {
         this.players = new HashSet<>();
+        this.followers = new HashSet<>();
     }
 
     public Integer getId() {
@@ -165,4 +170,25 @@ public class FootballClub implements Serializable {
         }
     }
 
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public void addFollower(User user) {
+        if(!this.followers.contains(user)) {
+            this.followers.add(user);
+            user.addFollowedClub(this);
+        }
+    }
+
+    public void removeFollower(User user) {
+        if(this.followers.contains(user)) {
+            this.followers.remove(user);
+            user.removeFollowedClub(this);
+        }
+    }
 }

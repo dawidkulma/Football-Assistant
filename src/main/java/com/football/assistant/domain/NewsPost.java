@@ -30,6 +30,9 @@ public class NewsPost implements Serializable {
     @Column
     private String fotoUrl;
 
+    @Transient
+    private String digest;
+
     public NewsPost(String title, String content, Timestamp creationTimestamp, String fotoUrl) {
         this.title = title;
         this.content = content;
@@ -79,6 +82,14 @@ public class NewsPost implements Serializable {
         this.fotoUrl = fotoUrl;
     }
 
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
+    }
+
     public User getAuthor() {
         return author;
     }
@@ -86,35 +97,5 @@ public class NewsPost implements Serializable {
     public void setAuthor(User author) {
         this.author = author;
         author.addNewsPost(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        NewsPost newsPost = (NewsPost) o;
-        return Objects.equals(id, newsPost.id) &&
-                Objects.equals(title, newsPost.title) &&
-                Objects.equals(content, newsPost.content) &&
-                Objects.equals(creationTimestamp, newsPost.creationTimestamp) &&
-                Objects.equals(author, newsPost.author) &&
-                Objects.equals(fotoUrl, newsPost.fotoUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, content, creationTimestamp, author, fotoUrl);
-    }
-
-    @Override
-    public String toString() {
-        return "NewsPost{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", creationTimestamp=" + creationTimestamp +
-                ", author=" + author +
-                ", fotoUrl='" + fotoUrl + '\'' +
-                '}';
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{common_layout.html}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Assistant - Posts</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <h2>News Articles</h2><br>
+            <div th:each="post : ${posts}" class="list-group">
+                <a th:href="@{/news_post/view/{id}/(id=${post.id})}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 th:text="${post.title}" class="mb-1"></h5>
+                        <small th:text="${post.creationTimestamp}" class="text-muted"></small>
+                    </div>
+                    <p th:text="${post.digest}" class="mb-1"></p>
+                    <small th:text="${post.author.nickname}" class="text-muted"></small>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
