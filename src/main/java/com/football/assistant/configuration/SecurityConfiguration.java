@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@Order(1)
+@Order(2)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired

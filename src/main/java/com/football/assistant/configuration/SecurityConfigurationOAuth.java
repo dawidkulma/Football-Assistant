@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@Order(2)
+@Order(1)
 public class SecurityConfigurationOAuth extends WebSecurityConfigurerAdapter {
 
 	@Override
