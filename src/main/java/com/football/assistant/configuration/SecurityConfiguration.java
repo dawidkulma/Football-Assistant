@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
+//@Order(2)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -50,10 +50,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/features").permitAll()
                 .antMatchers("/api_info").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
+                .authenticated().and().oauth2Login().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/home")
                 .usernameParameter("email")

@@ -16,10 +16,6 @@
                 <a class="btn btn-primary btn-lg" href="/features" role="button">Learn more</a>
             </div>
             <br>
-            <div th:unless="${#httpServletRequest.remoteUser}">
-                <p><a th:href="@{/login}">Sign In</a></p>
-                <p><a th:href="@{/registration}">New User? Start here</a></p>
-            </div>
         </div>
     </div>
 </section>
