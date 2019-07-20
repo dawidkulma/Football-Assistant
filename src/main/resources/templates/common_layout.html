@@ -56,7 +56,7 @@
                     </div>
                     <div th:unless="${#httpServletRequest.remoteUser}">
                         <a class="dropdown-item" href="/registration">Create New Account</a>
-                        <a class="dropdown-item" href="/login?">Login To Existing Account</a>
+                        <a class="dropdown-item" href="/login?oauth=false">Login To Existing Account</a>
                         <a class="dropdown-item" href="/login">Login With OAuth</a>
                     </div>
                     <div th:if="${#httpServletRequest.remoteUser}">
