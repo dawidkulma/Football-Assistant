@@ -1,0 +1,24 @@
+execution:
+  - executor: jmeter
+    concurrency: 10
+    hold-for: 1m
+    ramp-up: 20s
+    scenario: Thread Group
+scenarios:
+  Thread Group:
+    requests:
+      - label: football-assistant1
+        method: GET
+        url: https://football-assistant.herokuapp.com
+      - label: football-assistant2
+        method: GET
+        url: https://football-assistant.herokuapp.com/features
+      - label: football-assistant3
+        method: GET
+        url: https://football-assistant.herokuapp.com/api_info
+      - label: football-assistant4
+        method: GET
+        url: https://football-assistant.herokuapp.com/login?oauth=false
+      - label: football-assistant5
+        method: GET
+        url: https://football-assistant.herokuapp.com/registration

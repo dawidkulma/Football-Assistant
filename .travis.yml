@@ -7,6 +7,8 @@ before_install:
 script:
 - "./mvnw clean install -B"
 - "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"
+install:
+  - pip install --user bzt
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::7}
@@ -38,3 +40,5 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
+after_deploy:
+  - python -m bzt performance_tests.yml -report
