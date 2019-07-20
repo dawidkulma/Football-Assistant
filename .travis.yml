@@ -4,10 +4,12 @@ jdk:
 - oraclejdk8
 before_install:
 - chmod +x mvnw
+- sudo apt-get install python
 script:
 - "./mvnw clean install -B"
 - "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"
 install:
+  - sudo apt-get install python-pip
   - pip install --user bzt
 env:
   global:
