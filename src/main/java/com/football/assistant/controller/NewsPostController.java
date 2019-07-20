@@ -3,6 +3,8 @@ package com.football.assistant.controller;
 import com.football.assistant.domain.NewsPost;
 import com.football.assistant.service.NewsPostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +22,7 @@ public class NewsPostController {
     private NewsPostService newsPostService;
 
     @GetMapping("/view/{id}")
-    public String view(@PathVariable("id") Integer id, Model model) {
+    public String oauthAOPview(@PathVariable("id") Integer id, Model model, AbstractAuthenticationToken authentication) {
         NewsPost post = newsPostService.findById(id);
         if (post == null) return "not_found";
         model.addAttribute("post", post);
@@ -28,7 +30,7 @@ public class NewsPostController {
     }
 
     @GetMapping("/browse")
-    public ModelAndView getPosts() {
+    public ModelAndView oauthAOPgetPosts(AbstractAuthenticationToken authentication) {
         Iterable<NewsPost> posts = newsPostService.lookup();
         for (NewsPost post : posts) {
             post.setDigest(post.getContent().substring(0, 100) + "...");

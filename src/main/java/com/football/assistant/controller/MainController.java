@@ -4,10 +4,11 @@ import com.football.assistant.domain.FootballClub;
 import com.football.assistant.domain.User;
 import com.football.assistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +19,7 @@ public class MainController {
     private UserService userService;
 
     @GetMapping("/home")
-    public ModelAndView homePage() {
+    public ModelAndView oauthAOPhomePage(AbstractAuthenticationToken authentication) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -36,7 +37,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public ModelAndView index() {
+    public ModelAndView oauthAOPindex(AbstractAuthenticationToken authentication) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
         return modelAndView;

@@ -5,7 +5,9 @@ import com.football.assistant.domain.User;
 import com.football.assistant.service.FootballClubService;
 import com.football.assistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class FootballClubController {
     private UserService userService;
 
     @GetMapping("/view/{id}")
-    public String view(@PathVariable("id") Integer id, Model model) {
+    public String oauthAOPview(@PathVariable("id") Integer id, Model model, AbstractAuthenticationToken authentication) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         FootballClub footballClub = footballClubService.findByApiId(id);
         if (footballClub == null) return "not_found";
@@ -35,7 +37,7 @@ public class FootballClubController {
     }
 
     @GetMapping("/follow")
-    public String addToFollowed(@RequestParam("clubId") int id) {
+    public String oauthAOPaddToFollowed(@RequestParam("clubId") int id, AbstractAuthenticationToken authentication) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         FootballClub club = footballClubService.findByApiId(id);
         club.addFollower(user);
@@ -44,7 +46,7 @@ public class FootballClubController {
     }
 
     @GetMapping("/unfollow")
-    public String unfollow(@RequestParam("clubId") int id) {
+    public String oauthAOPunfollow(@RequestParam("clubId") int id, AbstractAuthenticationToken authentication) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         FootballClub club = footballClubService.findByApiId(id);
         club.removeFollower(user);

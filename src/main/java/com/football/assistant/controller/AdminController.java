@@ -5,9 +5,9 @@ import com.football.assistant.domain.User;
 import com.football.assistant.service.NewsPostService;
 import com.football.assistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,14 +24,14 @@ public class AdminController {
     private NewsPostService newsPostService;
 
     @GetMapping("/summary")
-    public ModelAndView admin(){
+    public ModelAndView oauthAOPadmin(AbstractAuthenticationToken authentication){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin");
         return modelAndView;
     }
 
     @GetMapping("/users")
-    public ModelAndView users() {
+    public ModelAndView oauthAOPusers(AbstractAuthenticationToken authentication) {
         List<User> users = userService.findAll();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin_users");
@@ -47,7 +47,7 @@ public class AdminController {
 
 
     @GetMapping("/posts")
-    public ModelAndView posts() {
+    public ModelAndView oauthAOPposts(AbstractAuthenticationToken authentication) {
         Iterable<NewsPost> posts = newsPostService.lookup();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin_posts");
@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @GetMapping("/posts/add")
-    public ModelAndView addPost() {
+    public ModelAndView oauthAOPaddPost(AbstractAuthenticationToken authentication) {
         NewsPost post = new NewsPost();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin_post_form");
