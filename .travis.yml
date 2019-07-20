@@ -1,16 +1,15 @@
 sudo: required
 language: java
+python: 3.7
 jdk:
 - oraclejdk8
 before_install:
 - chmod +x mvnw
 - sudo apt-get update
-- sudo apt-get install python
 script:
 - "./mvnw clean install -B"
 - "./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar"
 install:
-  - sudo apt-get install python-pip
   - pip install --user bzt
 env:
   global:
@@ -44,4 +43,4 @@ cache:
   - "$HOME/.m2/repository"
   - "$HOME/.sonar/cache"
 after_deploy:
-  - python -m bzt performance_tests.yml -report
+  - python3 -m bzt performance_tests.yml -report
