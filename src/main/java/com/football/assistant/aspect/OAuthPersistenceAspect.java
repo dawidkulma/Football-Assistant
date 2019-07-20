@@ -1,5 +1,7 @@
 package com.football.assistant.aspect;
 
+import com.football.assistant.domain.User;
+import com.football.assistant.service.UserService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -23,6 +25,9 @@ public class OAuthPersistenceAspect {
 
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
+
+    @Autowired
+    private UserService userService;
 
     @Before("execution(public * oauthAOP*(..))")
     public void test(JoinPoint joinPoint){
@@ -48,8 +53,15 @@ public class OAuthPersistenceAspect {
             ResponseEntity<Map> response = restTemplate
                     .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
-            System.out.println(userAttributes.get("name"));
-            System.out.println(userAttributes.get("email"));
+            User userInDB = userService.findUserByEmail(userAttributes.get("email").toString());
+            if (userInDB == null) {
+                User newUser = new User();
+                newUser.setEmail(userAttributes.get("email").toString());
+                newUser.setNickname(userAttributes.get("name").toString());
+                newUser.setOauth2id(authentication.getName());
+                newUser.setPassword("oauthtoken");
+                userService.saveUser(newUser, "NORMAL");
+            }
         }
     }
 }

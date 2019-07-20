@@ -36,6 +36,9 @@ public class User implements Serializable {
     @Column(name = "active")
     private int active;
 
+    @Column(name = "oauth2id")
+    private String oauth2id;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -50,11 +53,12 @@ public class User implements Serializable {
     public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email,
                 @Length(min = 5, message = "*Your password must have at least 5 characters")
                 @NotEmpty(message = "*Please provide your password") String password,
-                @NotEmpty(message = "*Please provide your nickname") String nickname, int active) {
+                @NotEmpty(message = "*Please provide your nickname") String nickname, int active, String oauth2id) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.active = active;
+        this.oauth2id = oauth2id;
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
         this.followedClubs = new HashSet<>();
@@ -168,5 +172,13 @@ public class User implements Serializable {
         if(this.followedClubs.contains(club)) {
             this.followedClubs.remove(club);
         }
+    }
+
+    public String getOauth2id() {
+        return oauth2id;
+    }
+
+    public void setOauth2id(String oauth2id) {
+        this.oauth2id = oauth2id;
     }
 }

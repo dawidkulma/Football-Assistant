@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public void saveUser(User user, String role) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (user.getPassword() != null) user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
         Role userRole = roleRepository.findByRole(role);
         user.addRole(userRole);
@@ -36,7 +36,10 @@ public class UserService {
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        if (email.contains("@")) {
+            return userRepository.findByEmail(email);
+        }
+        return userRepository.findByOauth2id(email);
     }
 
     public List<User> findAll() {
