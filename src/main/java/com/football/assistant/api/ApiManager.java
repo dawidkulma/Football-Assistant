@@ -194,7 +194,7 @@ public class ApiManager {
         }
         if(arrayOfFoundTeams == null)
             return null;
-        if (fetchResult.size() < 1)
+        if (arrayOfFoundTeams.size() < 1)
             return null;
         JsonObject foundTeam = arrayOfFoundTeams.getJsonObject(0);
         return foundTeam.getString("idTeam");
@@ -220,10 +220,41 @@ public class ApiManager {
         }
         if(arrayOfFoundPlayers == null)
             return null;
-        if (fetchResult.size() < 1)
+        if (arrayOfFoundPlayers.size() < 1)
             return null;
         JsonObject foundPlayer = arrayOfFoundPlayers.getJsonObject(0);
         return foundPlayer.getString("idPlayer");
+    }
+
+    public String searchLeagueByName(String name){
+
+        String fetchUrlSuffix = "/all_leagues.php";
+        JsonObject fetchResult = null;
+        try {
+            fetchResult = getJsonObjFromURL(fetchUrlSuffix);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (fetchResult == null)
+            return null;
+        JsonArray arrayOfFoundLeagues = null;
+        try {
+            arrayOfFoundLeagues = fetchResult.getJsonArray("leagues");
+        } catch (Exception e) {
+            return null;
+        }
+        if(arrayOfFoundLeagues == null)
+            return null;
+        if (arrayOfFoundLeagues.size() < 1)
+            return null;
+
+        for(int i=0; i<arrayOfFoundLeagues.size(); i++){
+            if(arrayOfFoundLeagues.getJsonObject(i).getString("strLeague").equals(name))
+                return arrayOfFoundLeagues.getJsonObject(i).getString("idLeague");
+        }
+
+        return null;
     }
 
     public String getApiUrlPrefix() {
