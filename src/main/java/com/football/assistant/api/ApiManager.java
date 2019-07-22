@@ -177,23 +177,6 @@ public class ApiManager {
     public String searchTeamByName(String name){
 
         String fetchUrlSuffix = "/searchteams.php?t=" + name;
-        JsonObject foundTeam = searchFromApi(fetchUrlSuffix, "teams");
-        if (foundTeam == null)
-            return null;
-        return foundTeam.getString("idTeam");
-    }
-
-    public String searchPlayerByName(String name){
-
-        String fetchUrlSuffix = "/searchplayers.php?p=" + name;
-        JsonObject foundPlayer = searchFromApi(fetchUrlSuffix, "player");
-        if (foundPlayer == null)
-            return null;
-        return foundPlayer.getString("idPlayer");
-    }
-
-    public JsonObject searchFromApi(String fetchUrlSuffix, String searchType){
-
         JsonObject fetchResult = null;
         try {
             fetchResult = getJsonObjFromURL(fetchUrlSuffix);
@@ -203,17 +186,44 @@ public class ApiManager {
         }
         if (fetchResult == null)
             return null;
-        JsonArray arrayOfFoundItems = null;
+        JsonArray arrayOfFoundTeams = null;
         try {
-            arrayOfFoundItems = fetchResult.getJsonArray(searchType);
+            arrayOfFoundTeams = fetchResult.getJsonArray("teams");
         } catch (Exception e) {
             return null;
         }
-        if(arrayOfFoundItems == null)
+        if(arrayOfFoundTeams == null)
             return null;
         if (fetchResult.size() < 1)
             return null;
-        return arrayOfFoundItems.getJsonObject(0);
+        JsonObject foundTeam = arrayOfFoundTeams.getJsonObject(0);
+        return foundTeam.getString("idTeam");
+    }
+
+    public String searchPlayerByName(String name){
+
+        String fetchUrlSuffix = "/searchplayers.php?p=" + name;
+        JsonObject fetchResult = null;
+        try {
+            fetchResult = getJsonObjFromURL(fetchUrlSuffix);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (fetchResult == null)
+            return null;
+        JsonArray arrayOfFoundPlayers = null;
+        try {
+            arrayOfFoundPlayers = fetchResult.getJsonArray("player");
+        } catch (Exception e) {
+            return null;
+        }
+        if(arrayOfFoundPlayers == null)
+            return null;
+        if (fetchResult.size() < 1)
+            return null;
+        JsonObject foundPlayer = arrayOfFoundPlayers.getJsonObject(0);
+        return foundPlayer.getString("idPlayer");
     }
 
     public String getApiUrlPrefix() {
