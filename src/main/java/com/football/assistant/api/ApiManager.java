@@ -183,6 +183,15 @@ public class ApiManager {
         return foundTeam.getString("idTeam");
     }
 
+    public String searchPlayerByName(String name){
+
+        String fetchUrlSuffix = "/searchplayers.php?p=" + name;
+        JsonObject foundPlayer = searchFromApi(fetchUrlSuffix, "player");
+        if (foundPlayer == null)
+            return null;
+        return foundPlayer.getString("idPlayer");
+    }
+
     public JsonObject searchFromApi(String fetchUrlSuffix, String searchType){
 
         JsonObject fetchResult = null;
