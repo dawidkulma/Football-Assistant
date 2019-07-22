@@ -174,6 +174,39 @@ public class ApiManager {
         return result;
     }
 
+    public String searchTeamByName(String name){
+
+        String fetchUrlSuffix = "/searchteams.php?t=" + name;
+        JsonObject foundTeam = searchFromApi(fetchUrlSuffix, "teams");
+        if (foundTeam == null)
+            return null;
+        return foundTeam.getString("idTeam");
+    }
+
+    public JsonObject searchFromApi(String fetchUrlSuffix, String searchType){
+
+        JsonObject fetchResult = null;
+        try {
+            fetchResult = getJsonObjFromURL(fetchUrlSuffix);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (fetchResult == null)
+            return null;
+        JsonArray arrayOfFoundItems = null;
+        try {
+            arrayOfFoundItems = fetchResult.getJsonArray(searchType);
+        } catch (Exception e) {
+            return null;
+        }
+        if(arrayOfFoundItems == null)
+            return null;
+        if (fetchResult.size() < 1)
+            return null;
+        return arrayOfFoundItems.getJsonObject(0);
+    }
+
     public String getApiUrlPrefix() {
         return apiUrlPrefix;
     }
