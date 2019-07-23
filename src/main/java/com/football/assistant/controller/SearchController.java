@@ -1,6 +1,7 @@
 package com.football.assistant.controller;
 
 import com.football.assistant.api.ApiManager;
+import javafx.util.Pair;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -19,7 +21,7 @@ public class SearchController {
         ApiManager apiManager = new ApiManager();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_results");
-        Map<String,String> results;
+        List<Pair<String,String>> results;
 
         results = apiManager.searchLeagueByName(phrase);
         if(results != null && !results.isEmpty()){

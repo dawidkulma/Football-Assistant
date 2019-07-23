@@ -6,6 +6,19 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
 </head>
 <body>
-
+<section layout:fragment="content">
+    <div class="container">
+        <div class="panel-group" style="margin-top:40px">
+            <h2>Search Results</h2><br>
+            <div th:each="result : ${results}" class="list-group">
+                <a th:href="@{/{item}/view/{id}/(item=${type}, id=${result.getKey()})}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-20 justify-content-between">
+                        <h5 th:text="${result.getValue()}" class="mb-1"></h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
