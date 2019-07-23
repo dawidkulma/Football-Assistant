@@ -67,7 +67,7 @@
             </li>
         </ul>
         <div th:if="${#httpServletRequest.remoteUser}">
-            <form class="form-inline my-2 my-lg-0" action="search" method="POST">
+            <form class="form-inline my-2 my-lg-0" action="/search/results" method="GET">
                 <input class="form-control mr-sm-2" type="search" name="phrase" placeholder="Search" aria-label="Search">
                 <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
             </form>
