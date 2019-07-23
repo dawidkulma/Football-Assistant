@@ -23,19 +23,22 @@ public class SearchController {
 
         results = apiManager.searchLeagueByName(phrase);
         if(results != null && !results.isEmpty()){
-            modelAndView.addObject("leagues", results);
+            modelAndView.addObject("type", "league");
+            modelAndView.addObject("results", results);
             return modelAndView;
         }
 
         results = apiManager.searchTeamByName(phrase);
         if(results != null){
-            modelAndView.addObject("teams", results);
+            modelAndView.addObject("type", "football_club");
+            modelAndView.addObject("results", results);
             return modelAndView;
         }
 
         results = apiManager.searchPlayerByName(phrase);
         if(results != null){
-            modelAndView.addObject("players", results);
+            modelAndView.addObject("type", "player");
+            modelAndView.addObject("results", results);
             return modelAndView;
         }
 
