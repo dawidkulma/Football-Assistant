@@ -4,7 +4,6 @@ import com.football.assistant.domain.FootballClub;
 import com.football.assistant.domain.League;
 import com.football.assistant.domain.Player;
 import com.football.assistant.exception.WebApiException;
-import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
