@@ -21,7 +21,7 @@ public class SearchController {
         ApiManager apiManager = new ApiManager();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("search_results");
-        List<Pair<String,String>> results;
+        Map<String,String> results;
 
         results = apiManager.searchLeagueByName(phrase);
         if(results != null && !results.isEmpty()){
