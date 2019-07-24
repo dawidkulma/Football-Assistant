@@ -4,6 +4,7 @@ import com.football.assistant.domain.FootballClub;
 import com.football.assistant.domain.League;
 import com.football.assistant.domain.Player;
 import com.football.assistant.exception.WebApiException;
+import com.football.assistant.utils.SearchObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -173,7 +174,7 @@ public class ApiManager {
         return result;
     }
 
-    public Map<String,String> searchTeamByName(String name){
+    public List<SearchObject> searchTeamByName(String name){
 
         String fetchUrlSuffix = "/searchteams.php?t=" + name;
         JsonObject fetchResult = null;
@@ -196,14 +197,14 @@ public class ApiManager {
         if (arrayOfFoundTeams.size() < 1)
             return null;
 
-        Map<String,String> foundTeams = new HashMap<>();
+        List<SearchObject> foundTeams = new ArrayList<>();
         for(int i=0; i<arrayOfFoundTeams.size(); i++){
-            foundTeams.put(arrayOfFoundTeams.getJsonObject(i).getString("idTeam"),arrayOfFoundTeams.getJsonObject(i).getString("strTeam"));
+            foundTeams.add(new SearchObject(arrayOfFoundTeams.getJsonObject(i).getString("idTeam"),arrayOfFoundTeams.getJsonObject(i).getString("strTeam"), "football_club"));
         }
         return foundTeams;
     }
 
-    public Map<String,String>  searchPlayerByName(String name){
+    public List<SearchObject>  searchPlayerByName(String name){
 
         String fetchUrlSuffix = "/searchplayers.php?p=" + name;
         JsonObject fetchResult = null;
@@ -226,14 +227,15 @@ public class ApiManager {
         if (arrayOfFoundPlayers.size() < 1)
             return null;
 
-        Map<String,String> foundPlayers = new HashMap<>();
+        List<SearchObject> foundPlayers = new ArrayList<>();
         for(int i=0; i<arrayOfFoundPlayers.size(); i++){
-            foundPlayers.put(arrayOfFoundPlayers.getJsonObject(i).getString("idPlayer"),arrayOfFoundPlayers.getJsonObject(i).getString("strPlayer"));
+            foundPlayers.add(new SearchObject(arrayOfFoundPlayers.getJsonObject(i).getString("idPlayer"),arrayOfFoundPlayers.getJsonObject(i).getString("strPlayer"), "player"));
         }
+
         return foundPlayers;
     }
 
-    public Map<String,String>  searchLeagueByName(String name){
+    public List<SearchObject>  searchLeagueByName(String name){
 
         String fetchUrlSuffix = "/all_leagues.php";
         JsonObject fetchResult = null;
@@ -256,10 +258,10 @@ public class ApiManager {
         if (arrayOfFoundLeagues.size() < 1)
             return null;
 
-        Map<String,String> foundLeagues = new HashMap<>();
+        List<SearchObject> foundLeagues = new ArrayList<>();
         for(int i=0; i<arrayOfFoundLeagues.size(); i++){
             if(arrayOfFoundLeagues.getJsonObject(i).getString("strLeague").contains(name)) {
-                foundLeagues.put(arrayOfFoundLeagues.getJsonObject(i).getString("idLeague"), arrayOfFoundLeagues.getJsonObject(i).getString("strLeague"));
+                foundLeagues.add(new SearchObject(arrayOfFoundLeagues.getJsonObject(i).getString("idLeague"),arrayOfFoundLeagues.getJsonObject(i).getString("strLeague"), "league"));
             }
         }
         return foundLeagues;
