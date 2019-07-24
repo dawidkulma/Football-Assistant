@@ -28,6 +28,9 @@ public class SearchController {
             return modelAndView;
         }
 
+        phrase = phrase.trim();
+        phrase = phrase.replaceAll("\\s", "%20");
+
         results = apiManager.searchTeamByName(phrase);
         if(results != null){
             modelAndView.addObject("type", "football_club");
@@ -42,7 +45,7 @@ public class SearchController {
             return modelAndView;
         }
 
-        modelAndView.setViewName("not_found");
+        modelAndView.setViewName("not_searched");
         return modelAndView;
     }
 }
