@@ -30,7 +30,8 @@
                                                         <td>
                                                         <span style="color: gray">Followed</span>
                                                             <a th:href="@{/football_club/unfollow/clubpage  (clubId=${club.apiId})}"
-                                                                class="btn btn-danger btn-sm">
+                                                                class="btn btn-danger btn-sm"
+                                                                onclick="if (!(confirm('Are you sure you want to unfollow this club?'))) return false">
                                                                     Unfollow
                                                             </a>
                                                         </td>

@@ -25,6 +25,24 @@
                                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><p th:text="${league.fullName}" /></h2>
                                                 <h6 class="d-block">League</h6>
                                                 <h6 class="d-block">Last Update: <p style="font-size: small" th:text="${league.lastRefreshTimestamp}" /></h6>
+                                                <h6 class="d-block">
+                                                    <div th:if="${isFollowed}">
+                                                        <td>
+                                                            <span style="color: gray">Followed</span>
+                                                            <a th:href="@{/league/unfollow/leaguepage(leagueId=${league.apiId})}"
+                                                               class="btn btn-danger btn-sm"
+                                                               onclick="if (!(confirm('Are you sure you want to unfollow this league?'))) return false">
+                                                                Unfollow
+                                                            </a>
+                                                        </td>
+                                                    </div>
+                                                    <div th:unless="${isFollowed}">
+                                                        <a th:href="@{/league/follow(leagueId=${league.apiId})}"
+                                                           class="btn btn-info btn-sm">
+                                                            Follow
+                                                        </a>
+                                                    </div>
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>

@@ -39,6 +39,9 @@ public class League implements Serializable {
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private Set<FootballClub> clubs;
 
+    @ManyToMany(mappedBy = "followedLeagues")
+    private Set<User> followers;
+
     public League(Integer apiId, Timestamp lastRefreshTimestamp, String fullName, Integer formedYear, String websiteUrl,
                   String description, String logoUrl) {
         this.apiId = apiId;
@@ -49,6 +52,7 @@ public class League implements Serializable {
         this.description = description;
         this.logoUrl = logoUrl;
         this.clubs = new HashSet<>();
+        this.followers = new HashSet<>();
     }
 
     protected League() {}
@@ -135,6 +139,28 @@ public class League implements Serializable {
     public void removeClub(FootballClub club) {
         if(this.clubs.contains(club)) {
             this.clubs.remove(club);
+        }
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public void addFollower(User user) {
+        if(!this.followers.contains(user)) {
+            this.followers.add(user);
+            user.addFollowedLeague(this);
+        }
+    }
+
+    public void removeFollower(User user) {
+        if(this.followers.contains(user)) {
+            this.followers.remove(user);
+            user.removeFollowedLeague(this);
         }
     }
 }

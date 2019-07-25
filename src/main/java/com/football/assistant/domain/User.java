@@ -47,6 +47,10 @@ public class User implements Serializable {
     @JoinTable(name = "user_club", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "club_id"))
     private Set<FootballClub> followedClubs;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_league", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "league_id"))
+    private Set<League> followedLeagues;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<NewsPost> newsPosts;
 
@@ -62,12 +66,14 @@ public class User implements Serializable {
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
         this.followedClubs = new HashSet<>();
+        this.followedLeagues = new HashSet<>();
     }
 
     public User() {
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
         this.followedClubs = new HashSet<>();
+        this.followedLeagues = new HashSet<>();
     }
 
     public int getId() {
@@ -171,6 +177,27 @@ public class User implements Serializable {
     public void removeFollowedClub(FootballClub club) {
         if(this.followedClubs.contains(club)) {
             this.followedClubs.remove(club);
+        }
+    }
+
+    public Set<League> getFollowedLeagues() {
+        return followedLeagues;
+    }
+
+    public void setFollowedLeagues(Set<League> followedLeagues) {
+        this.followedLeagues = followedLeagues;
+    }
+
+    public void addFollowedLeague(League league) {
+        if(!this.followedLeagues.contains(league)) {
+            this.followedLeagues.add(league);
+            league.addFollower(this);
+        }
+    }
+
+    public void removeFollowedLeague(League league) {
+        if(this.followedLeagues.contains(league)) {
+            this.followedLeagues.remove(league);
         }
     }
 
