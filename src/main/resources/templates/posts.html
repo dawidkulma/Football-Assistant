@@ -9,6 +9,7 @@
     <div class="container">
         <div class="panel-group" style="margin-top:40px">
             <h2>News Articles</h2><br>
+            <h6 th:text="${anyPosts}" class="mb-1"></h6>
             <div th:each="post : ${posts}" class="list-group">
                 <a th:href="@{/news_post/view/{id}/(id=${post.id})}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">

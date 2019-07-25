@@ -32,12 +32,19 @@ public class NewsPostController {
     @GetMapping("/browse")
     public ModelAndView oauthAOPgetPosts(AbstractAuthenticationToken authentication) {
         Iterable<NewsPost> posts = newsPostService.lookup();
+        boolean anyPosts = false;
         for (NewsPost post : posts) {
             post.setDigest(post.getContent().substring(0, 100) + "...");
+            anyPosts = true;
         }
         ModelAndView postsView = new ModelAndView();
         postsView.setViewName("posts");
         postsView.addObject("posts", posts);
+        if (!anyPosts)
+            postsView.addObject("anyPosts", "No posts currently to display (:");
+        else
+            postsView.addObject("anyPosts", "");
+
         return postsView;
     }
 

@@ -42,11 +42,11 @@ public class FootballClubController {
         FootballClub club = footballClubService.findByApiId(id);
         club.addFollower(user);
         this.userService.getUserRepository().flush();
-        return "redirect:/profile/self";
+        return "redirect:/football_club/view/" + id + "/";
     }
 
     @GetMapping("/unfollow")
-    public String oauthAOPunfollow(@RequestParam("clubId") int id, AbstractAuthenticationToken authentication) {
+    public String oauthAOPunfollowAtUserPage(@RequestParam("clubId") int id, AbstractAuthenticationToken authentication) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         FootballClub club = footballClubService.findByApiId(id);
         club.removeFollower(user);
@@ -54,4 +54,12 @@ public class FootballClubController {
         return "redirect:/profile/self";
     }
 
+    @GetMapping("/unfollow/clubpage")
+    public String oauthAOPunfollowAtClubPage(@RequestParam("clubId") int id, AbstractAuthenticationToken authentication) {
+        User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        FootballClub club = footballClubService.findByApiId(id);
+        club.removeFollower(user);
+        this.userService.getUserRepository().flush();
+        return "redirect:/football_club/view/" + id + "/";
+    }
 }
