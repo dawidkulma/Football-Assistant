@@ -50,6 +50,40 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <br>
+                <h3>Followed Leagues</h3>
+                <br>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>League</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="league : ${user.followedLeagues}">
+
+                        <td th:text="${league.fullName}" />
+
+                        <td>
+                            <a th:href="@{/league/view/{id}/(id=${league.apiId})}"
+                               class="btn btn-info btn-sm">
+                                Show
+                            </a>
+
+                            <a th:href="@{/league/unfollow(leagueId=${league.apiId})}"
+                               class="btn btn-danger btn-sm"
+                               onclick="if (!(confirm('Are you sure you want to unfollow this league?'))) return false">
+                                Unfollow
+                            </a>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
