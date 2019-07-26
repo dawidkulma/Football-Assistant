@@ -31,7 +31,7 @@ public class LeagueController {
         if (league == null)
             return "not_found";
         model.addAttribute("league", league);
-        if (user.getFollowedClubs().contains(league)) {
+        if (user.getFollowedLeagues().contains(league)) {
             model.addAttribute("isFollowed", true);
         } else {
             model.addAttribute("isFollowed", false);
