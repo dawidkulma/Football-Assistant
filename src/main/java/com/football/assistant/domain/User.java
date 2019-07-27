@@ -54,6 +54,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<NewsPost> newsPosts;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<PostComment> postsComments;
+
     public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email,
                 @Length(min = 5, message = "*Your password must have at least 5 characters")
                 @NotEmpty(message = "*Please provide your password") String password,
@@ -65,6 +68,7 @@ public class User implements Serializable {
         this.oauth2id = oauth2id;
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
+        this.postsComments = new HashSet<>();
         this.followedClubs = new HashSet<>();
         this.followedLeagues = new HashSet<>();
     }
@@ -72,6 +76,7 @@ public class User implements Serializable {
     public User() {
         this.roles = new HashSet<>();
         this.newsPosts = new HashSet<>();
+        this.postsComments = new HashSet<>();
         this.followedClubs = new HashSet<>();
         this.followedLeagues = new HashSet<>();
     }
@@ -156,6 +161,33 @@ public class User implements Serializable {
     public void removeNewsPost(NewsPost post) {
         if(this.newsPosts.contains(post)) {
             this.newsPosts.remove(post);
+        }
+    }
+
+    public Set<PostComment> getPostsComments() {
+
+        return postsComments;
+    }
+
+    public void setPostsComments(Set<PostComment> postsComments) {
+
+        this.postsComments = postsComments;
+    }
+
+    public void addPostComment(PostComment comment) {
+
+        if(!this.postsComments.contains(comment)) {
+
+            this.postsComments.add(comment);
+            comment.setAuthor(this);
+        }
+    }
+
+    public void removeNewsPost(PostComment comment) {
+
+        if(this.postsComments.contains(comment)) {
+
+            this.postsComments.remove(comment);
         }
     }
 
