@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 
 @Controller
@@ -38,18 +39,27 @@ public class NewsPostController {
         NewsPost post = newsPostService.findById(id);
         if (post == null)
             return "not_found";
+        model.addAttribute("post", post);
+
+        Set<PostComment> currentComments = post.getPostsComments();
+        if (currentComments == null){
+            return "not_found";
+        }
+        model.addAttribute("currentComments", currentComments);
+
         PostComment comment = new PostComment();
         model.addAttribute("comment", comment);
-        model.addAttribute("post", post);
+
         return "news_post";
     }
 
-    @PostMapping("/view/{id}/comment")
-    public String savePost(@PathVariable("id") Integer id, @ModelAttribute("comment") PostComment comment) {
+    @PostMapping("/view/{id}/comment/save")
+    public String savePostComment(@PathVariable("id") Integer id, @ModelAttribute("post") NewsPost post, @ModelAttribute("comment") PostComment comment) {
 
-        User author = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        postCommentService.save(comment, author);
-        return "redirect:/view/{id}/";
+        User commentAuthor = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        postCommentService.save(comment, post, commentAuthor);
+
+        return "redirect:/news_post/view/" + id.toString() + "/";
     }
 
     @GetMapping("/browse")

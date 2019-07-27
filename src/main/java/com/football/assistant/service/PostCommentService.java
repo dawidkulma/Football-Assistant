@@ -1,5 +1,6 @@
 package com.football.assistant.service;
 
+import com.football.assistant.domain.NewsPost;
 import com.football.assistant.domain.PostComment;
 import com.football.assistant.domain.User;
 import com.football.assistant.repository.PostCommentRepository;
@@ -20,12 +21,13 @@ public class PostCommentService {
         this.postCommentRepository = postCommentRepository;
     }
 
-    public void save(PostComment comment, User author) {
+    public void save(PostComment comment, NewsPost newsPost, User author) {
 
         String timestampStr = millisecondsToCustomStrDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss");
         java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(timestampStr);
-        comment.setAuthor(author);
         comment.setCreationTimestamp(timestamp);
+        comment.setNewsPost(newsPost);
+        comment.setAuthor(author);
         postCommentRepository.save(comment);
     }
 

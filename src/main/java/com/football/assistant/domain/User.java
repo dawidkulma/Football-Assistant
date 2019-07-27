@@ -54,7 +54,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<NewsPost> newsPosts;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author")
     private Set<PostComment> postsComments;
 
     public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email,

@@ -21,6 +21,10 @@ public class PostComment implements Serializable {
     private java.sql.Timestamp creationTimestamp;
 
     @ManyToOne
+    @JoinColumn(name = "post_id")
+    private NewsPost newsPost;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;
 
@@ -60,6 +64,17 @@ public class PostComment implements Serializable {
     public void setCreationTimestamp(Timestamp creationTimestamp) {
 
         this.creationTimestamp = creationTimestamp;
+    }
+
+    public NewsPost getNewsPost() {
+
+        return newsPost;
+    }
+
+    public void setNewsPost(NewsPost newsPost) {
+
+        this.newsPost = newsPost;
+        newsPost.addPostComment(this);
     }
 
     public User getAuthor() {
