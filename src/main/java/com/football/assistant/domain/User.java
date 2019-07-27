@@ -183,7 +183,7 @@ public class User implements Serializable {
         }
     }
 
-    public void removeNewsPost(PostComment comment) {
+    public void removePostComment(PostComment comment) {
 
         if(this.postsComments.contains(comment)) {
 

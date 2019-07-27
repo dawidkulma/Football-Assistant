@@ -1,9 +1,14 @@
 package com.football.assistant.controller;
 
 import com.football.assistant.domain.NewsPost;
+import com.football.assistant.domain.PostComment;
+import com.football.assistant.domain.User;
 import com.football.assistant.service.NewsPostService;
+import com.football.assistant.service.PostCommentService;
+import com.football.assistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +26,30 @@ public class NewsPostController {
     @Autowired
     private NewsPostService newsPostService;
 
+    @Autowired
+    private PostCommentService postCommentService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/view/{id}")
     public String oauthAOPview(@PathVariable("id") Integer id, Model model, AbstractAuthenticationToken authentication) {
+
         NewsPost post = newsPostService.findById(id);
-        if (post == null) return "not_found";
+        if (post == null)
+            return "not_found";
+        PostComment comment = new PostComment();
+        model.addAttribute("comment", comment);
         model.addAttribute("post", post);
         return "news_post";
+    }
+
+    @PostMapping("/view/{id}/comment")
+    public String savePost(@PathVariable("id") Integer id, @ModelAttribute("comment") PostComment comment) {
+
+        User author = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        postCommentService.save(comment, author);
+        return "redirect:/view/{id}/";
     }
 
     @GetMapping("/browse")

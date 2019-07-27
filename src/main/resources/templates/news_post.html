@@ -35,7 +35,24 @@
                 <p class="lead" th:inline="text">[[${post.content}]]</p>
 
                 <hr>
+
+                <br>
+
+                <h3>Comments</h3>
+
+                <hr>
+
+                <form action="#" th:action="@{/news_post/view/{id}/comment/ (id=${post.id})}"
+                      th:object="${comment}" method="POST" id="commentform">
+
+                    <textarea class="form-control"  rows="3" cols="200" th:field="*{content}" form="commentform" placeholder="Enter your comment here">... </textarea>
+
+                    <button type="submit" class="btn btn-info btn-sm">Post Comment</button>
+
+                </form>
+
             </div>
+
         </div>
     </div>
 </section>
