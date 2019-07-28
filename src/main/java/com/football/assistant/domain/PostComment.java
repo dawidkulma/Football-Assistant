@@ -28,10 +28,14 @@ public class PostComment implements Serializable {
     @JoinColumn(name = "user_id")
     private User author;
 
-    public PostComment(String content, Timestamp creationTimestamp) {
+    @Column
+    private String fotoUrl;
+
+    public PostComment(String content, Timestamp creationTimestamp, String fotoUrl) {
 
         this.content = content;
         this.creationTimestamp = creationTimestamp;
+        this.fotoUrl = fotoUrl;
     }
 
     public PostComment() {}
@@ -86,5 +90,15 @@ public class PostComment implements Serializable {
 
         this.author = author;
         author.addPostComment(this);
+    }
+
+    public String getFotoUrl() {
+
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+
+        this.fotoUrl = fotoUrl;
     }
 }

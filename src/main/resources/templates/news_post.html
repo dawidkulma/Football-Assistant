@@ -40,16 +40,23 @@
 
                 <h3>Comments</h3>
 
+                <h6 th:text="${anyComments}" class="mb-1"></h6>
+
                 <div th:each="comment : ${comments}" class="list-group">
 
-                    <a class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
+                    <a class="list-group-item">
 
-                            <p th:text="${comment.content}" class="mb-1"></p>
+                        <small style="margin-left: 88%" th:text="${comment.creationTimestamp}" class="text-muted"></small>
 
-                            <small th:text="${comment.creationTimestamp}" class="text-muted"></small>
+                        <div>
+
+                            <img class="img-fluid rounded float_left" th:src="@{${comment.fotoUrl}}" alt="">
 
                         </div>
+
+                        <br>
+
+                        <p th:text="${comment.content}" class="mb-1"></p>
 
                         <small th:text="${comment.author.nickname}" class="text-muted"></small>
 
@@ -57,12 +64,25 @@
 
                 </div>
 
+                <a id="last_comments"></a>
+
                 <hr>
+
+                <br>
+
+                <h5>Comment the article!</h5>
+
+                <br>
 
                 <form action="#" th:action="@{/news_post/view/{id}/comment/save (id=${post.id})}"
                       th:object="${newComment}" method="POST" id="commentform">
 
+                    <input type="text" th:field="*{fotoUrl}"
+                           class="form-control mb-4 col-8" placeholder="Link to your meme ;-)">
+
                     <textarea class="form-control"  rows="3" cols="200" th:field="*{content}" form="commentform" placeholder="Enter your comment here">... </textarea>
+
+                    <br>
 
                     <button type="submit" class="btn btn-info btn-sm">Post Comment</button>
 

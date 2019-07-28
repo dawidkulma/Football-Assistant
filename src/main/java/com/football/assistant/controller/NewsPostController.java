@@ -49,6 +49,12 @@ public class NewsPostController {
             return "not_found";
         }
         List<PostComment> comments = postComments.stream().sorted(Comparator.comparing(PostComment::getCreationTimestamp)).collect(Collectors.toList());
+        if(comments.isEmpty()){
+            model.addAttribute("anyComments", "No comments yet :(");
+        }
+        else{
+            model.addAttribute("anyComments", "");
+        }
         model.addAttribute("comments", comments);
 
         PostComment newComment = new PostComment();
@@ -63,7 +69,7 @@ public class NewsPostController {
         User commentAuthor = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         postCommentService.save(comment, post, commentAuthor);
 
-        return "redirect:/news_post/view/" + id.toString() + "/";
+        return "redirect:/news_post/view/" + id.toString() + "/" + "#last_comments";
     }
 
     @GetMapping("/browse")
