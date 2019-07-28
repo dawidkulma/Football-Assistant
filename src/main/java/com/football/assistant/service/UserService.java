@@ -16,14 +16,17 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private PostCommentService postCommentService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
+                       PostCommentService postCommentService,
                        BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.postCommentService = postCommentService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -47,6 +50,8 @@ public class UserService {
     }
 
     public void deleteById(int id) {
+
+        postCommentService.deleteAllCommentsByUserId(id);
         userRepository.deleteById(id);
     }
 

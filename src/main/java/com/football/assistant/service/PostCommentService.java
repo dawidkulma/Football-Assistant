@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PostCommentService {
@@ -36,5 +37,18 @@ public class PostCommentService {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         Date resultdate = new Date(timeInMilliseconds);
         return sdf.format(resultdate);
+    }
+
+    public void deleteAllCommentsByUserId(int id) {
+
+        List<PostComment> postComments = postCommentRepository.findAll();
+
+        for(PostComment comment : postComments){
+
+            if(comment.getAuthor().getId() == id) {
+
+                postCommentRepository.delete(comment);
+            }
+        }
     }
 }

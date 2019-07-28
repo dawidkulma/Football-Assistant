@@ -40,7 +40,7 @@
 
                 <h3>Comments</h3>
 
-                <div th:each="comment : ${currentComments}" class="list-group">
+                <div th:each="comment : ${comments}" class="list-group">
 
                     <a class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
@@ -60,7 +60,7 @@
                 <hr>
 
                 <form action="#" th:action="@{/news_post/view/{id}/comment/save (id=${post.id})}"
-                      th:object="${comment}" method="POST" id="commentform">
+                      th:object="${newComment}" method="POST" id="commentform">
 
                     <textarea class="form-control"  rows="3" cols="200" th:field="*{content}" form="commentform" placeholder="Enter your comment here">... </textarea>
 

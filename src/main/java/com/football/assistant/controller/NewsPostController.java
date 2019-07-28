@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -41,14 +44,15 @@ public class NewsPostController {
             return "not_found";
         model.addAttribute("post", post);
 
-        Set<PostComment> currentComments = post.getPostsComments();
-        if (currentComments == null){
+        Set<PostComment> postComments = post.getPostsComments();
+        if (postComments == null){
             return "not_found";
         }
-        model.addAttribute("currentComments", currentComments);
+        List<PostComment> comments = postComments.stream().sorted(Comparator.comparing(PostComment::getCreationTimestamp)).collect(Collectors.toList());
+        model.addAttribute("comments", comments);
 
-        PostComment comment = new PostComment();
-        model.addAttribute("comment", comment);
+        PostComment newComment = new PostComment();
+        model.addAttribute("newComment", newComment);
 
         return "news_post";
     }
