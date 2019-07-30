@@ -1,6 +1,7 @@
 package com.football.assistant.controller;
 
 import com.football.assistant.domain.FootballClub;
+import com.football.assistant.domain.League;
 import com.football.assistant.domain.User;
 import com.football.assistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class MainController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         User user = userService.findUserByEmail(auth.getName());
+
         StringBuilder followedClubsJson = new StringBuilder("{ \"clubs\": [ ");
         for (FootballClub club : user.getFollowedClubs()) {
             followedClubsJson.append(club.getApiId() + ",");
@@ -33,6 +35,17 @@ public class MainController {
         followedClubsJson.append("] }");
 
         modelAndView.addObject("followedTeamsIds", followedClubsJson.toString());
+
+        StringBuilder followedLeaguesJson = new StringBuilder("{ \"leagues\": [ ");
+        for (League league : user.getFollowedLeagues()) {
+
+            followedLeaguesJson.append(league.getApiId() + ",");
+        }
+        followedLeaguesJson.deleteCharAt(followedLeaguesJson.length()-1);
+        followedLeaguesJson.append("] }");
+
+        modelAndView.addObject("followedLeaguesIds", followedLeaguesJson.toString());
+
         return modelAndView;
     }
 

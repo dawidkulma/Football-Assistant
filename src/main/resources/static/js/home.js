@@ -1,13 +1,22 @@
 let counter = 0;
 let clubsIds = null;
+let leaguesIds = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+
     const hiddenUserData = document.getElementById('hiddenUserData').innerHTML.replace(/&quot;/g, '\\"');
     console.log(hiddenUserData);
     const hiddenUserDataJson = JSON.parse(hiddenUserData);
     clubsIds = hiddenUserDataJson.clubs;
     console.log(clubsIds);
-    if (clubsIds.length === 0) {
+
+    const hiddenUserDataLeagues = document.getElementById('hiddenUserDataLeagues').innerHTML.replace(/&quot;/g, '\\"');
+    console.log(hiddenUserDataLeagues);
+    const hiddenUserDataLeaguesJson = JSON.parse(hiddenUserDataLeagues);
+    leaguesIds = hiddenUserDataLeaguesJson.leagues;
+    console.log(leaguesIds);
+
+    if (clubsIds.length === 0 && leaguesIds.length === 0) {
         const info = document.createElement('div');
         info.innerHTML = 'No data currently to display :(';
         document.querySelector('#posts').append(info);
@@ -16,15 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
         load();
         counter += 1;
     }
-    if (counter < clubsIds.length) {
+    if (counter < clubsIds.length + leaguesIds.length) {
         load();
-        couter += 1;
+        counter += 1;
     }
 });
 
 window.onscroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        if (clubsIds != null && counter < clubsIds.length) {
+        if ((clubsIds != null || leaguesIds != null )&& counter < clubsIds.length + leaguesIds.length) {
             load();
             counter += 1;
         }
@@ -42,10 +51,29 @@ document.addEventListener('click', event => {
 });
 
 function load() {
-    fetch(`https://www.thesportsdb.com/api/v1/json/1/eventslast.php?id=${clubsIds[counter]}`)
+
+    let apiUrl = null;
+    let pathToLoad;
+
+    if(counter >= clubsIds.length){
+        apiUrl = `https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id=${leaguesIds[counter-clubsIds.length]}`;
+        pathToLoad = `leagues`;
+    }
+    else{
+        apiUrl = `https://www.thesportsdb.com/api/v1/json/1/eventslast.php?id=${clubsIds[counter]}`;
+        pathToLoad = `clubs`;
+    }
+
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            data.results.forEach(add_post)
+            console.log(data);
+            if(pathToLoad === `clubs`){
+                data.results.forEach(add_post)
+            }
+            else{
+                data.events.forEach(add_post)
+            }
         });
 }
 
