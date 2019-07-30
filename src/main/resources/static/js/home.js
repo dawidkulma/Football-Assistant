@@ -86,7 +86,7 @@ function add_post(contents) {
         post.innerHTML = contents.strFilename;
     }
 
-    const hide = document.createElement('button');
+    const hide = document.createElement('div');
     hide.className = 'hide';
     hide.innerHTML = 'Hide';
     post.append(hide);

@@ -32,6 +32,13 @@
     float: right;
 }
 
+.hide:hover  {
+    float: right;
+    cursor: pointer;
+    text-decoration: underline;
+    color: cornflowerblue;
+}
+
 .post {
     background-color: #f2f6ff;
     padding: 40px;
