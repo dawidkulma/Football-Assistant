@@ -84,6 +84,52 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <br>
+
+                <h3>Comments</h3>
+
+                <br>
+
+                <table class="table table-bordered table-striped">
+
+                    <thead class="thead-dark">
+
+                    <tr>
+
+                        <th width="33%">Content</th>
+
+                        <th width="33%">Creation Timestamp</th>
+
+                        <th width="33%">Post Link</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="comment : ${comments}">
+
+                        <td th:text="${comment.content}" />
+
+                        <td th:text="${comment.creationTimestamp}" />
+
+                        <td>
+
+                            <a th:href="@{/news_post/view/{id}/(id=${comment.newsPost.id})}"
+                                class="text-field">
+                                Go To Post
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
             </div>
         </div>
     </div>
